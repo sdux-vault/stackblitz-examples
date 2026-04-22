@@ -16,9 +16,13 @@
   "scripts": {
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
+    "lint": "eslint . --no-warn-ignored",
     "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
   },
   "devDependencies": {
+    "@angular-eslint/eslint-plugin": "^20.5.0",
+    "@angular-eslint/eslint-plugin-template": "^20.5.0",
+    "@angular-eslint/template-parser": "^20.5.0",
     "@angular/common": "^21.2.8",
     "@angular/compiler": "^21.2.8",
     "@angular/compiler-cli": "^21.2.8",
@@ -26,6 +30,11 @@
     "@angular/platform-browser": "^21.2.8",
     "@sdux-vault/core": "latest",
     "@sdux-vault/core-extensions-angular": "latest",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
