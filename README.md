@@ -7,7 +7,7 @@ These examples are formatted to run on [StackBlitz](https://stackblitz.com) and 
 ## Running Locally
 
 ```bash
-cd stackblitz/angular/demo-1
+cd stackblitz/<language>/<demo>
 npm install
 npm start
 ```

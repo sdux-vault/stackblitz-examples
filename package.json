@@ -17,6 +17,7 @@
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
     "format:fix": "pretty-quick --staged",
+    "global:angular:copy": "node tools/angular/global.mjs",
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
     "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"

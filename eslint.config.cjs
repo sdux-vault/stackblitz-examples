@@ -13,7 +13,7 @@ module.exports = [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./stackblitz/**/tsconfig.json'],
         tsconfigRootDir: __dirname,
         sourceType: 'module',
         ecmaVersion: 'latest'
