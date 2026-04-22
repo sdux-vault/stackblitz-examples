@@ -1,0 +1,19 @@
+{
+  "name": "@sdux-vault/stackblitz-examples",
+  "version": "0.0.1",
+  "private": true,
+  "description": "SDuX Vault StackBlitz example projects",
+  "author": "Cedar Sith<sduxvault@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdux-vault/stackblitz-examples.git"
+  },
+  "homepage": "https://www.sdux-vault.com",
+  "workspaces": [
+    "angular/demo-*"
+  ],
+  "scripts": {
+    "start:demo-1": "npm start --workspace=angular/demo-1"
+  }
+}
