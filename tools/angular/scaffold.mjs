@@ -1,5 +1,14 @@
 #!/usr/bin/env node
 
+/**
+ * CLI entry point for scaffolding a new Angular StackBlitz example.
+ *
+ * Prompts the user for an example name, normalizes it, and copies
+ * the scaffolding template into `stackblitz/angular/<name>`.
+ *
+ * @module scaffold
+ */
+
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';

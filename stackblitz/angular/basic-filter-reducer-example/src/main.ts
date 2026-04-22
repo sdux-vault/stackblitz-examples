@@ -5,6 +5,12 @@
 //	 cmd+alt+j (see .vscode/keybindings.json)
 // --- END AI MODEL FILE PATH ---
 
+/**
+ * Application bootstrap entry point.
+ *
+ * Bootstraps the root ExampleComponent as a standalone Angular application
+ * using the provider configuration defined in appConfig.
+ */
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { ExampleComponent } from './app/example.component';

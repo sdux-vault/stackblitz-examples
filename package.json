@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "copy:angular": "node tools/angular/global.mjs",
+    "docs:coverage": "eslint . --no-warn-ignored",
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
     "format:fix": "pretty-quick --staged",
@@ -48,6 +49,7 @@
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsdoc": "^50.6.0",
     "eslint-plugin-prettier": "^5.5.4",
     "c8": "^10.1.0",
     "husky": "^9.1.7",

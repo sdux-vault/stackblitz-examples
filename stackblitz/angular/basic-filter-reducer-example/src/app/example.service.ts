@@ -8,14 +8,25 @@
 import { Injectable } from '@angular/core';
 import { FeatureCell, injectVault } from '@sdux-vault/core-extensions-angular';
 
+/**
+ * Shape representing a single example entity in the FeatureCell state.
+ */
 export interface Example {
-  // example attributes
+  /** Unique identifier for the example entry. */
   id: number;
+
+  /** First name of the character. */
   name: string;
+
+  /** Last name of the character. */
   lastName: string;
+
+  /** Whether the character is a Jedi, set by the jediReducer. */
   jedi?: boolean;
+
+  /** Whether the character is a Senator, set by the jediReducer. */
   senator?: boolean;
-  // TODO: define additional properties
+  // TODO - add more fields to demonstrate filter/reducer behavior
 }
 
 /**
@@ -60,6 +71,12 @@ export class ExampleService {
    */
   readonly state = this.#vault.state;
 
+  /**
+   * Reducer that marks Jedi and Senator roles on matching entries.
+   *
+   * @param examples - Current array of Example records.
+   * @returns The mutated array with role flags applied.
+   */
   readonly #jediReducer = (examples: Example[]) => {
     return examples.filter((example: Example) => {
       if (example.id === 11) {
@@ -72,6 +89,10 @@ export class ExampleService {
     });
   };
 
+  /**
+   * Configures the Vault runtime pipeline with filters, reducers,
+   * and finalizes the FeatureCell initialization.
+   */
   constructor() {
     // Runtime pipeline configuration
     this.#vault
@@ -105,10 +126,18 @@ export class ExampleService {
     });
   }
 
+  /**
+   * Resets the FeatureCell state to its initial value.
+   */
   reset(): void {
     this.#vault.reset();
   }
 
+  /**
+   * Toggles the loading flag on the current state.
+   *
+   * @param loading - Whether the state should indicate a loading status.
+   */
   toggleLoading(loading: boolean): void {
     this.#vault.replaceState({
       loading,
@@ -116,6 +145,11 @@ export class ExampleService {
     });
   }
 
+  /**
+   * Toggles the error state on the current FeatureCell.
+   *
+   * @param error - The error to set, or null to clear.
+   */
   toggleError(error: Error | null): void {
     this.#vault.replaceState({
       error: error,

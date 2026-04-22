@@ -5,6 +5,12 @@ import {
 } from '@sdux-vault/core-extensions-angular';
 import { ExampleService } from './example.service';
 
+/**
+ * Application-level configuration for the Angular standalone bootstrap.
+ *
+ * Registers the Vault runtime and the ExampleService FeatureCell
+ * as dependency injection providers.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     // Creates the Vault runtime (state container + lifecycle)

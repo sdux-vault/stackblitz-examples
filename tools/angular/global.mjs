@@ -1,5 +1,14 @@
 #!/usr/bin/env node
 
+/**
+ * CLI entry point for copying global template files to all Angular examples.
+ *
+ * Scans `templates/global/` and copies every file into each example
+ * directory found under `stackblitz/angular/`.
+ *
+ * @module global
+ */
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GlobalCopy } from './global.class.mjs';

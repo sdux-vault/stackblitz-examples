@@ -47,15 +47,25 @@ export class ExampleComponent {
    */
   state = this.#exampleService.state;
 
+  /**
+   * Sample dataset used to demonstrate state replacement.
+   */
   sample = [
     { id: 11, name: 'Luke', lastName: 'Skywalker' },
     { id: 38, name: 'Leia', lastName: 'Organa' },
     { id: 9, name: 'Han', lastName: 'Solo' }
   ];
 
+  /** Hint text describing the current active state. */
   readonly activeStateHint = signal('Initial value is [] (empty array)');
+
+  /** Whether to display the active state hint. */
   readonly displayActiveStateHint = signal(true);
+
+  /** Whether the loading toggle is active. */
   readonly isLoading = signal(false);
+
+  /** Whether the error state is currently set. */
   readonly hasError = computed<boolean>(() => this.state.error() !== null);
 
   /**
@@ -81,15 +91,24 @@ export class ExampleComponent {
     this.#exampleService.replace(this.sample);
   }
 
+  /**
+   * Resets the FeatureCell state to its initial value.
+   */
   resetState(): void {
     this.#exampleService.reset();
   }
 
+  /**
+   * Toggles the loading flag and updates the service state.
+   */
   toggleLoading(): void {
     this.isLoading.update((loading) => !loading);
     this.#exampleService.toggleLoading(this.isLoading());
   }
 
+  /**
+   * Toggles the error state between an Error instance and null.
+   */
   toggleError(): void {
     const error = this.hasError() ? null : new Error('Example error message');
     this.#exampleService.toggleError(error);
