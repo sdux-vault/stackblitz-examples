@@ -16,8 +16,19 @@
   "scripts": {
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
+    "format:fix": "pretty-quick --staged",
     "lint": "eslint . --no-warn-ignored",
+    "prepare": "husky",
     "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,scss,css,html,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "^20.5.0",
@@ -35,7 +46,10 @@
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.6.2",
+    "pretty-quick": "^4.2.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2"
