@@ -1,0 +1,10 @@
+echo "Running coverage before push..."
+
+npm run test:coverage:clean
+
+npm run test:tools:coverage || {
+  printf "\n\nERROR: Test coverage issues were found in the 'tools' files. Please address them before proceeding.\n\n\n\n"
+  exit 1
+}
+
+echo "Pre-push checks complete."

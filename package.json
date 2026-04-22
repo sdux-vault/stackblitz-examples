@@ -22,8 +22,13 @@
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
     "scaffold:angular": "node tools/angular/scaffold.mjs",
+    "test": "npm run test:tools",
+    "test:coverage": "run-s test:coverage:clean test:tools:coverage",
+    "test:coverage:clean": "rimraf coverage",
     "test:tools": "node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
-    "test:tools:coverage": "c8 --all --include='tools/**/*.class.mjs' --reporter=text --reporter=html --reports-dir=coverage/tools node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json"
+    "test:tools:coverage": "c8 --all --include='tools/**/*.class.mjs' --reporter=text --reporter=html --reports-dir=coverage/tools node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "verify": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run docs:coverage"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
@@ -55,8 +60,10 @@
     "husky": "^9.1.7",
     "jasmine": "^5.12.0",
     "lint-staged": "^15.2.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "pretty-quick": "^4.2.2",
+    "rimraf": "^6.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2"

@@ -18,9 +18,5 @@ npm run format:fix || {
   exit 1
 }
 
-npm run test:tools || {
-  printf "\n\nERROR: Tool test issues were found. Please address them before proceeding.\n\n\n\n"
-  exit 1
-}
 
 echo "Pre-commit checks complete."
