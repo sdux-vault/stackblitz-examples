@@ -14,14 +14,13 @@
     "stackblitz/angular/demo-*"
   ],
   "scripts": {
+    "copy:angular": "node tools/angular/global.mjs",
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
     "format:fix": "pretty-quick --staged",
-    "global:angular:copy": "node tools/angular/global.mjs",
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
-    "scaffold:angular": "node tools/angular/scaffold.mjs",
-    "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
+    "scaffold:angular": "node tools/angular/scaffold.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [

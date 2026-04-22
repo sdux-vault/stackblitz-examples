@@ -33,7 +33,7 @@ function askForName() {
         process.exit(1);
       }
 
-      resolve(name);
+      resolve(name.endsWith('-example') ? name : `${name}-example`);
     });
   });
 }
