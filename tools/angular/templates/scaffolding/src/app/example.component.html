@@ -1,5 +1,125 @@
 <div class="example-container">
   <div class="header">
     <div class="title">SDuX Example</div>
+    <div class="subtitle">
+      This example shows how SDUX processes state through a pipeline: input data
+      flows through filters and reducers before becoming the final FeatureCell
+      state.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="label">Flow</div>
+    <div class="flow-hint">Input → Filter → Reducer → Output</div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Filter</div>
+      <div class="hint">
+        Removes or blocks data before it enters the pipeline
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      <textarea class="textarea">
+[
+  (examples: Example[]) => {
+
+    return examples.filter(
+      (example: Example) => example.name !== 'Han'
+    );
+  }
+]
+      </textarea>
+    </div>
+
+    <div class="state-container">
+      <div class="label">Reducer</div>
+      <div class="hint">Transforms each item in the state</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      <textarea class="textarea">
+[
+  (examples: Example[]) => {
+    return examples.map((example: Example) => {
+      if (example.id === 11) {
+        return { ...example, jedi: true };
+      }
+      return example;
+    });
+  }
+]
+      </textarea>
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Input State</div>
+      <div class="hint">Raw data before processing</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.component.ts
+      </div>
+      <textarea class="data-textarea">{{ sample | json }}</textarea>
+    </div>
+
+    <div class="state-container data-row">
+      <div class="label">FeatureCell State</div>
+      <div class="hint">Final state after filters and reducers run</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      @if (state.isLoading()) {
+        <div class="status">Loading...</div>
+      } @else if (state.error()) {
+        <textarea class="data-textarea error" readonly
+          >{{ state.error() | json }}
+        </textarea>
+        <div class="hint state">This is a VaultError display</div>
+      } @else if (state.hasValue()) {
+        <textarea class="data-textarea" readonly
+          >{{ state.value() | json }}
+        </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> {{ activeStateHint() }}
+        </div>
+        <div class="hint file">
+          @if (displayActiveStateHint()) {
+            <span class="emphasis">File:</span> app/app.config.ts
+          } @else {
+            &nbsp;
+          }
+        </div>
+      } @else {
+        <textarea class="data-textarea" readonly> </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> cleared - pipeline has no active
+          value, error or loading status.
+        </div>
+        <div class="hint file">
+          <span class="emphasis">File:</span> app/app.config.ts &nbsp;
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="actions">
+      <button class="sdux-button primary" (click)="loadSample()">
+        Load Sample State
+      </button>
+
+      <div class="secondary-actions">
+        <button class="sdux-button" (click)="resetState()">Reset State</button>
+        <button class="sdux-button" (click)="toggleLoading()">
+          Loading ({{ state.isLoading() }})
+        </button>
+        <button class="sdux-button" (click)="toggleError()">
+          Error ({{ hasError() }})
+        </button>
+      </div>
+    </div>
   </div>
 </div>

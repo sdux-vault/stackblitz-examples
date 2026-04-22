@@ -1,0 +1,6 @@
+{
+  "spec_dir": "tools",
+  "spec_files": ["angular/**/tests/**/*.spec.mjs"],
+  "helpers": [],
+  "random": false
+}
