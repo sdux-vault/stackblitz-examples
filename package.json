@@ -20,6 +20,7 @@
     "global:angular:copy": "node tools/angular/global.mjs",
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
+    "scaffold:angular": "node tools/angular/scaffold.mjs",
     "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
   },
   "lint-staged": {
