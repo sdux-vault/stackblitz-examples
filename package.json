@@ -21,7 +21,8 @@
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
     "scaffold:angular": "node tools/angular/scaffold.mjs",
-    "test:tools": "node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json"
+    "test:tools": "node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
+    "test:tools:coverage": "c8 --all --include='tools/**/*.class.mjs' --reporter=text --reporter=html --reports-dir=coverage/tools node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
@@ -48,6 +49,7 @@
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.5.4",
+    "c8": "^10.1.0",
     "husky": "^9.1.7",
     "jasmine": "^5.12.0",
     "lint-staged": "^15.2.0",

@@ -79,6 +79,22 @@ describe('GlobalCopy', () => {
       expect(result).toEqual([]);
     });
 
+    it('should create missing subdirectories in examples', () => {
+      // example-c has no src/ subdirectory
+      fs.mkdirSync(path.join(angularExamplesDir, 'example-c'), {
+        recursive: true
+      });
+
+      const noCopy = new GlobalCopy({ templatesDir, angularExamplesDir });
+      noCopy.run();
+
+      expect(
+        fs.existsSync(
+          path.join(angularExamplesDir, 'example-c', 'src', 'styles.scss')
+        )
+      ).toBe(true);
+    });
+
     it('should throw if angular examples directory does not exist', () => {
       const badCopy = new GlobalCopy({
         templatesDir,
