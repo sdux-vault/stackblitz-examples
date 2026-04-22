@@ -4,8 +4,8 @@ Live, runnable examples demonstrating [SDuX Vault](https://www.sdux-vault.com) s
 
 ## Examples
 
-| Demo                                | Description                    |
-| ----------------------------------- | ------------------------------ |
+| Demo                                 | Description                    |
+| ------------------------------------ | ------------------------------ |
 | [demo-1](stackblitz/angular/demo-1/) | Basic store setup with Angular |
 
 ## Running Locally
