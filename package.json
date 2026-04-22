@@ -11,12 +11,12 @@
   },
   "homepage": "https://www.sdux-vault.com",
   "workspaces": [
-    "stacblitz/angular/demo-*"
+    "stackblitz/angular/demo-*"
   ],
   "scripts": {
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
-    "start:demo-1": "npm start --workspace=stacblitz/angular/demo-1"
+    "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
