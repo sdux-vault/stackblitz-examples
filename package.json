@@ -19,6 +19,16 @@
     "start:demo-1": "npm start --workspace=stackblitz/angular/demo-1"
   },
   "devDependencies": {
-    "prettier": "^3.6.2"
+    "@angular/common": "^21.2.8",
+    "@angular/compiler": "^21.2.8",
+    "@angular/compiler-cli": "^21.2.8",
+    "@angular/core": "^21.2.8",
+    "@angular/platform-browser": "^21.2.8",
+    "@sdux-vault/core": "latest",
+    "@sdux-vault/core-extensions-angular": "latest",
+    "prettier": "^3.6.2",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "typescript": "~5.9.2"
   }
 }
