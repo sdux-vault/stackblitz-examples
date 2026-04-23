@@ -29,11 +29,11 @@
     "copy": "node tools/global.mjs",
     "copy:angular": "node tools/global.mjs --language=angular",
     "copy:react": "node tools/global.mjs --language=react",
-    "docs:coverage": "eslint . --no-warn-ignored",
+    "docs:coverage": "eslint . --no-warn-ignored --ext .ts,.tsx,.vue",
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
     "format:fix": "pretty-quick --staged",
-    "lint": "eslint . --no-warn-ignored",
+    "lint": "eslint . --no-warn-ignored --ext .ts,.tsx,.vue",
     "prepare": "husky",
     "scaffold": "node tools/scaffold.mjs",
     "scaffold:angular": "node tools/scaffold.mjs --language=angular",
@@ -48,7 +48,7 @@
     "watch:tools": "npm-watch test:tools"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+    "*.{ts,tsx,js,jsx,mjs,cjs,vue}": [
       "eslint --fix",
       "prettier --write"
     ],
@@ -90,6 +90,7 @@
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "vue": "^3.5.13",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^2.2.8"
   }
 }

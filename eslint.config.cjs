@@ -3,6 +3,7 @@ const tsParser = require('@typescript-eslint/parser');
 const eslintPluginPrettier = require('eslint-plugin-prettier');
 const angular = require('@angular-eslint/eslint-plugin');
 const jsdoc = require('eslint-plugin-jsdoc');
+const vueParser = require('vue-eslint-parser');
 
 module.exports = [
   {
@@ -80,6 +81,50 @@ module.exports = [
     rules: {
       '@angular-eslint/component-selector': 'off',
       '@angular-eslint/directive-selector': 'off'
+    }
+  },
+
+  {
+    files: ['**/*.vue'],
+    languageOptions: {
+      parser: vueParser,
+      parserOptions: {
+        parser: tsParser,
+        project: ['./stackblitz/vue/**/tsconfig.json'],
+        tsconfigRootDir: __dirname,
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+        extraFileExtensions: ['.vue']
+      }
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      prettier: eslintPluginPrettier,
+      jsdoc
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules,
+      'no-console': 0,
+      'prettier/prettier': 'error',
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          require: {
+            ClassDeclaration: true,
+            FunctionDeclaration: true,
+            MethodDefinition: true
+          },
+          checkConstructors: true
+        }
+      ],
+      'jsdoc/require-description': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_'
+        }
+      ]
     }
   }
 ];

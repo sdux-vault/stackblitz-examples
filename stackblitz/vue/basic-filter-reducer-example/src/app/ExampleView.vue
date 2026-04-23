@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
 import type { Subscription } from 'rxjs';
+import { onMounted, onUnmounted, ref } from 'vue';
 import {
   type Example,
   exampleState,
