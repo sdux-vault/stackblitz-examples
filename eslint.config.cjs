@@ -16,14 +16,15 @@ module.exports = [
   },
 
   {
-    files: ['**/*.ts'],
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
         project: ['./stackblitz/**/tsconfig.json', './tools/**/tsconfig.json'],
         tsconfigRootDir: __dirname,
         sourceType: 'module',
-        ecmaVersion: 'latest'
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true }
       }
     },
     plugins: {
@@ -71,6 +72,14 @@ module.exports = [
           type: 'attribute'
         }
       ]
+    }
+  },
+
+  {
+    files: ['**/*.tsx'],
+    rules: {
+      '@angular-eslint/component-selector': 'off',
+      '@angular-eslint/directive-selector': 'off'
     }
   }
 ];
