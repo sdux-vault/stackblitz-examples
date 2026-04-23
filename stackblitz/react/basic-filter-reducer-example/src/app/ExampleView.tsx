@@ -186,7 +186,7 @@ export function ExampleView() {
             </>
           ) : (
             <>
-              <textarea className="data-textarea" readOnly defaultValue=" " />
+              <textarea className="data-textarea" readOnly value=" " />
               <div className="hint state">
                 <span className="emphasis">State:</span> cleared - pipeline has
                 no active value, error or loading status.
