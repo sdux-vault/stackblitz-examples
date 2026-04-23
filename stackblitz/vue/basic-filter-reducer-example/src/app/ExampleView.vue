@@ -20,7 +20,7 @@ const sample: Example[] = [
 const snapshot = ref({
   value: exampleState.value,
   isLoading: exampleState.isLoading,
-  error: exampleState.error as Error | null,
+  error: exampleState.error as unknown,
   hasValue: exampleState.hasValue
 });
 
