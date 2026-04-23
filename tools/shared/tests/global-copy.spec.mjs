@@ -1,18 +1,18 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { GlobalCopy } from '../global.class.mjs';
+import { GlobalCopy } from '../global-copy.class.mjs';
 
 describe('GlobalCopy', () => {
   let tmpDir;
   let templatesDir;
-  let angularExamplesDir;
+  let examplesDir;
   let globalCopy;
 
   beforeEach(() => {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'global-test-'));
     templatesDir = path.join(tmpDir, 'global');
-    angularExamplesDir = path.join(tmpDir, 'angular');
+    examplesDir = path.join(tmpDir, 'examples');
 
     // Create template files
     fs.mkdirSync(templatesDir, { recursive: true });
@@ -28,14 +28,18 @@ describe('GlobalCopy', () => {
     );
 
     // Create example directories
-    fs.mkdirSync(path.join(angularExamplesDir, 'example-a', 'src'), {
+    fs.mkdirSync(path.join(examplesDir, 'example-a', 'src'), {
       recursive: true
     });
-    fs.mkdirSync(path.join(angularExamplesDir, 'example-b', 'src'), {
+    fs.mkdirSync(path.join(examplesDir, 'example-b', 'src'), {
       recursive: true
     });
 
-    globalCopy = new GlobalCopy({ templatesDir, angularExamplesDir });
+    globalCopy = new GlobalCopy({
+      templatesDir,
+      examplesDir,
+      language: 'angular'
+    });
 
     spyOn(console, 'info');
   });
@@ -59,7 +63,7 @@ describe('GlobalCopy', () => {
       expect(result).toEqual(['example-a', 'example-b']);
 
       for (const example of ['example-a', 'example-b']) {
-        const exampleDir = path.join(angularExamplesDir, example);
+        const exampleDir = path.join(examplesDir, example);
         expect(fs.existsSync(path.join(exampleDir, 'package.json'))).toBe(true);
         expect(
           fs.readFileSync(path.join(exampleDir, 'package.json'), 'utf-8')
@@ -72,8 +76,8 @@ describe('GlobalCopy', () => {
     });
 
     it('should return empty array when no examples exist', () => {
-      fs.rmSync(angularExamplesDir, { recursive: true, force: true });
-      fs.mkdirSync(angularExamplesDir, { recursive: true });
+      fs.rmSync(examplesDir, { recursive: true, force: true });
+      fs.mkdirSync(examplesDir, { recursive: true });
 
       const result = globalCopy.run();
       expect(result).toEqual([]);
@@ -81,28 +85,43 @@ describe('GlobalCopy', () => {
 
     it('should create missing subdirectories in examples', () => {
       // example-c has no src/ subdirectory
-      fs.mkdirSync(path.join(angularExamplesDir, 'example-c'), {
+      fs.mkdirSync(path.join(examplesDir, 'example-c'), {
         recursive: true
       });
 
-      const noCopy = new GlobalCopy({ templatesDir, angularExamplesDir });
+      const noCopy = new GlobalCopy({
+        templatesDir,
+        examplesDir,
+        language: 'angular'
+      });
       noCopy.run();
 
       expect(
-        fs.existsSync(
-          path.join(angularExamplesDir, 'example-c', 'src', 'styles.scss')
-        )
+        fs.existsSync(path.join(examplesDir, 'example-c', 'src', 'styles.scss'))
       ).toBe(true);
     });
 
-    it('should throw if angular examples directory does not exist', () => {
+    it('should throw if examples directory does not exist', () => {
       const badCopy = new GlobalCopy({
         templatesDir,
-        angularExamplesDir: path.join(tmpDir, 'nonexistent')
+        examplesDir: path.join(tmpDir, 'nonexistent'),
+        language: 'angular'
       });
 
-      expect(() => badCopy.run()).toThrowError(
-        /Angular examples directory not found/
+      expect(() => badCopy.run()).toThrowError(/Examples directory not found/);
+    });
+
+    it('should include language name in log messages', () => {
+      const reactCopy = new GlobalCopy({
+        templatesDir,
+        examplesDir,
+        language: 'react'
+      });
+
+      reactCopy.run();
+
+      expect(console.info).toHaveBeenCalledWith(
+        jasmine.stringContaining('react')
       );
     });
   });

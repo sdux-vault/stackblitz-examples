@@ -13,22 +13,39 @@
   "workspaces": [
     "stackblitz/angular/demo-*"
   ],
+  "watch": {
+    "test:tools": {
+      "patterns": [
+        "tools"
+      ],
+      "extensions": "js,mjs",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 1000,
+      "runOnChangeOnly": false
+    }
+  },
   "scripts": {
-    "copy:angular": "node tools/angular/global.mjs",
+    "copy": "node tools/global.mjs",
+    "copy:angular": "node tools/global.mjs --language=angular",
+    "copy:react": "node tools/global.mjs --language=react",
     "docs:coverage": "eslint . --no-warn-ignored",
     "format:all": "prettier --config ./.prettierrc --write .",
     "format:check": "prettier --config ./.prettierrc --check .",
     "format:fix": "pretty-quick --staged",
     "lint": "eslint . --no-warn-ignored",
     "prepare": "husky",
-    "scaffold:angular": "node tools/angular/scaffold.mjs",
+    "scaffold": "node tools/scaffold.mjs",
+    "scaffold:angular": "node tools/scaffold.mjs --language=angular",
+    "scaffold:react": "node tools/scaffold.mjs --language=react",
     "test": "npm run test:tools",
     "test:coverage": "run-s test:coverage:clean test:tools:coverage",
     "test:coverage:clean": "rimraf coverage",
     "test:tools": "node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
-    "test:tools:coverage": "c8 --all --include='tools/**/*.class.mjs' --reporter=text --reporter=html --reports-dir=coverage/tools node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
+    "test:tools:coverage": "c8 --all --include='tools/shared/**/*.class.mjs' --reporter=text --reporter=html --reports-dir=coverage/tools node --experimental-vm-modules node_modules/jasmine/bin/jasmine.js --config=tools/jasmine.node.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "verify": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run docs:coverage"
+    "verify": "npm run lint && npm run format:check && npm run typecheck && npm run test:coverage && npm run docs:coverage",
+    "watch:tools": "npm-watch test:tools"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
@@ -54,15 +71,16 @@
     "@types/react-dom": "^19.1.2",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "c8": "^10.1.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^50.6.0",
     "eslint-plugin-prettier": "^5.5.4",
-    "c8": "^10.1.0",
     "husky": "^9.1.7",
     "jasmine": "^5.12.0",
     "lint-staged": "^15.2.0",
     "npm-run-all": "^4.1.5",
+    "npm-watch": "^0.13.0",
     "prettier": "^3.6.2",
     "pretty-quick": "^4.2.2",
     "react": "^19.1.0",

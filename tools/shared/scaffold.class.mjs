@@ -2,27 +2,32 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
- * Scaffolds new Angular StackBlitz example projects from a template directory.
+ * Scaffolds new StackBlitz example projects from a template directory.
  *
  * Copies the full scaffolding template tree into a new example folder
- * under `stackblitz/angular/`, normalizing the provided name to kebab-case
+ * under `stackblitz/<language>/`, normalizing the provided name to kebab-case
  * and appending `-example` when not already present.
  */
 export class Scaffold {
   /** @type {string} Absolute path to the scaffolding template directory. */
   #scaffoldingDir;
 
-  /** @type {string} Absolute path to the angular examples output directory. */
-  #angularExamplesDir;
+  /** @type {string} Absolute path to the examples output directory. */
+  #examplesDir;
+
+  /** @type {string} Language identifier (e.g. 'angular', 'react'). */
+  #language;
 
   /**
    * @param {object} config
    * @param {string} config.scaffoldingDir - Absolute path to the scaffolding template directory.
-   * @param {string} config.angularExamplesDir - Absolute path to the angular examples output directory.
+   * @param {string} config.examplesDir - Absolute path to the examples output directory.
+   * @param {string} config.language - Language identifier for log messages.
    */
-  constructor({ scaffoldingDir, angularExamplesDir }) {
+  constructor({ scaffoldingDir, examplesDir, language }) {
     this.#scaffoldingDir = scaffoldingDir;
-    this.#angularExamplesDir = angularExamplesDir;
+    this.#examplesDir = examplesDir;
+    this.#language = language;
   }
 
   /* -----------------------------------------------------------
@@ -81,7 +86,7 @@ export class Scaffold {
    * --------------------------------------------------------- */
 
   /**
-   * Scaffolds a new Angular example project.
+   * Scaffolds a new example project.
    *
    * Normalizes the name, validates the target does not already exist,
    * then copies the full scaffolding template into the new directory.
@@ -92,21 +97,21 @@ export class Scaffold {
    */
   run(name) {
     const normalized = this.normalizeName(name);
-    const targetDir = path.join(this.#angularExamplesDir, normalized);
+    const targetDir = path.join(this.#examplesDir, normalized);
 
     if (fs.existsSync(targetDir)) {
       throw new Error(`Example already exists: ${targetDir}`);
     }
 
     console.info(
-      `\n🔧 Scaffolding new example: stackblitz/angular/${normalized}\n`
+      `\n🔧 Scaffolding new ${this.#language} example: stackblitz/${this.#language}/${normalized}\n`
     );
 
     this.copyDir(this.#scaffoldingDir, targetDir);
 
-    console.info(`✅ Created: stackblitz/angular/${normalized}`);
+    console.info(`✅ Created: stackblitz/${this.#language}/${normalized}`);
     console.info(`\nNext steps:`);
-    console.info(`  cd stackblitz/angular/${normalized}`);
+    console.info(`  cd stackblitz/${this.#language}/${normalized}`);
     console.info(`  npm install`);
     console.info(`  npm start\n`);
 

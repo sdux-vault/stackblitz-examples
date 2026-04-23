@@ -6,16 +6,16 @@ import { Scaffold } from '../scaffold.class.mjs';
 describe('Scaffold', () => {
   let tmpDir;
   let scaffoldingDir;
-  let angularExamplesDir;
+  let examplesDir;
   let scaffold;
 
   beforeEach(() => {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'scaffold-test-'));
     scaffoldingDir = path.join(tmpDir, 'scaffolding');
-    angularExamplesDir = path.join(tmpDir, 'angular');
+    examplesDir = path.join(tmpDir, 'examples');
 
     fs.mkdirSync(scaffoldingDir, { recursive: true });
-    fs.mkdirSync(angularExamplesDir, { recursive: true });
+    fs.mkdirSync(examplesDir, { recursive: true });
 
     // Create a minimal scaffolding template
     fs.writeFileSync(path.join(scaffoldingDir, 'angular.json'), '{}');
@@ -27,7 +27,11 @@ describe('Scaffold', () => {
       ''
     );
 
-    scaffold = new Scaffold({ scaffoldingDir, angularExamplesDir });
+    scaffold = new Scaffold({
+      scaffoldingDir,
+      examplesDir,
+      language: 'angular'
+    });
 
     spyOn(console, 'info');
   });
@@ -75,7 +79,7 @@ describe('Scaffold', () => {
       const name = scaffold.run('my-test');
       expect(name).toBe('my-test-example');
 
-      const targetDir = path.join(angularExamplesDir, 'my-test-example');
+      const targetDir = path.join(examplesDir, 'my-test-example');
       expect(fs.existsSync(targetDir)).toBe(true);
       expect(fs.existsSync(path.join(targetDir, 'angular.json'))).toBe(true);
       expect(fs.existsSync(path.join(targetDir, 'package.json'))).toBe(true);
@@ -89,6 +93,20 @@ describe('Scaffold', () => {
       scaffold.run('duplicate');
       expect(() => scaffold.run('duplicate')).toThrowError(
         /Example already exists/
+      );
+    });
+
+    it('should include language name in log messages', () => {
+      const reactScaffold = new Scaffold({
+        scaffoldingDir,
+        examplesDir,
+        language: 'react'
+      });
+
+      reactScaffold.run('react-test');
+
+      expect(console.info).toHaveBeenCalledWith(
+        jasmine.stringContaining('react')
       );
     });
   });
