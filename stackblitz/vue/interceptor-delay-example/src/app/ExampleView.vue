@@ -94,9 +94,9 @@ function handleToggleError(): void {
     <div class="header">
       <div class="title">SDuX Example</div>
       <div class="subtitle">
-        This example shows how SDUX processes state through a pipeline: input
-        data flows through filters and reducers before becoming the final
-        FeatureCell state.
+        This example demonstrates the delay interceptor controller: state
+        updates are held for a configured duration before being released into
+        the pipeline, letting you observe the delayed commit in real time.
       </div>
     </div>
 
@@ -109,7 +109,8 @@ function handleToggleError(): void {
       <div class="state-container">
         <div class="label">Delay (Interceptor)</div>
         <div class="hint">
-          Removes or blocks data before it enters the pipeline
+          Holds state updates for a configured delay before releasing them into
+          the pipeline
         </div>
         <div class="hint file">
           <span class="emphasis">File:</span> app/example.cell.ts

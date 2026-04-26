@@ -103,9 +103,9 @@ export function ExampleView() {
       <div className="header">
         <div className="title">SDuX Example</div>
         <div className="subtitle">
-          This example shows how SDUX processes state through a pipeline: input
-          data flows through filters and reducers before becoming the final
-          FeatureCell state.
+          This example demonstrates the delay interceptor controller: state
+          updates are held for a configured duration before being released into
+          the pipeline, letting you observe the delayed commit in real time.
         </div>
       </div>
 
@@ -118,7 +118,8 @@ export function ExampleView() {
         <div className="state-container">
           <div className="label">Delay (Interceptor)</div>
           <div className="hint">
-            Removes or blocks data before it enters the pipeline
+            Holds state updates for a configured delay before releasing them
+            into the pipeline
           </div>
           <div className="hint file">
             <span className="emphasis">File:</span> app/example.cell.ts
