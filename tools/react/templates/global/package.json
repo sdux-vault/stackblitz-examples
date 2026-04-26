@@ -1,6 +1,6 @@
 {
-  "name": "react-demo-1",
-  "version": "0.0.1",
+  "name": "react-demo",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@sdux-vault/addons": "latest",
     "@sdux-vault/core": "latest",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

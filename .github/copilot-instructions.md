@@ -3,32 +3,21 @@
 - AI models are NEVER allowed to autonomously commit or push to git repositories. The user must always review changes and execute git operations manually via terminal commands.
 - AI models are NEVER allowed to install npm packages without explicit user authorization.
 
-SCSS and HTML styling guardrails (standing rules):
+Repository structure awareness:
 
-- When working with `.scss` files, style tokens and shared styling primitives must come from `libs/ui/styles/scss/**`.
-- Do not introduce raw presentation values directly in feature/component `.scss` files (for example: padding, margin, color, font-family, font-size, font-weight, line-height, border radius, spacing values). Use references from `libs/ui/styles/scss/**` instead.
-- `.scss` selectors must be written in nested form to mirror the HTML structure whenever practical.
-- Inline CSS in HTML is prohibited (`style="..."` is not allowed).
-- In HTML templates, all `<button>` elements must include an explicit `type` attribute (`button`, `submit`, or `reset`).
-- Icon-only interactive controls (including Angular Material icon buttons) must include an accessible name via `aria-label`.
-- In HTML templates, `[innerHTML]` is allowed only for trusted, non-user-generated content. Add a short comment when the trust source is not obvious from nearby code.
-- Dynamic style bindings (`[style]`, `[style.*]`, `[ngStyle]`) are allowed only for runtime layout/positioning values that cannot be represented by class toggles alone.
-- Documentation HTML examples may include intentionally non-compliant markup only when shown as escaped, non-executable sample code inside `<pre><code>` blocks under docs/example paths. This exemption does not apply to live template markup.
-- In component `.scss` files, do not use `::ng-deep` by default. It is allowed only for unavoidable third-party overrides and must include a short exception comment describing why it is required.
-- In component `.scss` files, do not use `!important` by default. It is allowed only for unavoidable third-party overrides and must include a short exception comment describing why it is required.
-- Responsive breakpoints in component `.scss` files must come from centralized breakpoint tokens/mixins in `libs/ui/styles/scss/**` (no raw `px` breakpoint values).
-- Layering in component `.scss` files must use centralized z-index tokens from `libs/ui/styles/scss/**` (no ad-hoc numeric z-index values).
-- SCSS modules must use `@use`; do not introduce `@import` in `.scss` files.
-- CSS/SCSS class names must be hyphenated (kebab-case). Do not use `__` (double underscore) in class names or SCSS variable names.
-- Documentation/demo SCSS examples may be exempt from strict production styling guardrails only when they are clearly scoped to docs/example paths and labeled as non-production styles.
+- npm workspaces are scoped to `stackblitz/angular/demo-*` only. Do not add other directories as workspaces or create `package.json` files outside of `stackblitz/<framework>/<example-name>/` paths.
+- Angular examples under `stackblitz/angular/` are the canonical source of truth. React, Vue, and Svelte examples are ports. Never modify Angular examples as part of a porting operation.
+- Each StackBlitz example must be self-contained and runnable standalone. No cross-example imports or shared dependencies between examples.
+- The `app/` directory is a local development playground — not a published example. Do not treat it as a StackBlitz example or include it in workspaces.
+- The `tools/` directory contains `.mjs` scaffolding scripts that auto-discover frameworks by directory convention. Do not modify these scripts without understanding the discovery mechanism in `tools/global.mjs` and `tools/scaffold.mjs`.
+- Do not expose SDuX Vault internal mechanics (voting, traces, revotes, deny/abstain, queue/timer internals) in example code, comments, or documentation. See `stackdocs.prompt.md` § 1.4.1.
 
 Repository baseline defaults for this repository:
 
 - Primary source language is TypeScript; prefer `.ts` for new source files unless explicitly requested otherwise.
-- Existing JavaScript entrypoints and scripts are valid; do not migrate JS to TS unless explicitly requested.
-- Documentation standard is TSDoc/JSDoc on exported symbols only.
-- Testing standard is Jest with colocated `*.spec.ts` files.
-- Use repository npm scripts as canonical commands for lint, typecheck, docs, build, and test.
+- Existing JavaScript entrypoints and scripts (`.mjs`) are valid; do not migrate JS to TS unless explicitly requested.
+- Documentation standard is JSDoc following the `@stackdocs` canon (`.github/prompts/stackdocs.prompt.md`).
+- Use repository npm scripts as canonical commands for lint, build, and test.
 - Maintain strict typing; avoid `any` and `unknown` unless explicitly requested.
 - If instructions conflict with older docs, prioritize `package.json` scripts and current project config.
 
@@ -43,6 +32,10 @@ Prompt routing policy:
 
 Shortcut routing:
 
+- `@port` | `port example` | `port to react` | `port to vue` | `port to svelte`
+  Use `.github/prompts/port-example.prompt.md`.
+  Translates an Angular StackBlitz example to the target framework.
+
 - `@gitcmd` | `git command` | `commit command` | `summarize commit` | `commit summary command`
   Use `.github/prompts/git-command.prompt.md`.
 
@@ -52,24 +45,8 @@ Shortcut routing:
 - `@gitreview` | `git review` | `pre-commit review` | `commit risk review`
   Use `.github/prompts/git-review.prompt.md`.
 
-- `@reporeview` | `repo review` | `production readiness review`
-  Use `.github/prompts/repo-review.prompt.md`.
-
-- `@review` | `review shortcut` | `review file type`
-  Use `.github/prompts/review-file-type.prompt.md`.
-  Analyze matching files against `.github/prompts/create-file.prompt.md` as the centralized rubric.
-
 - `@markdown` | `markdown shortcut` | `convert to markdown`
   Use `.github/prompts/markdown.prompt.md`.
-
-- `@newfile` | `@newconfig` | `@newshape` | `@newtype` | `@newoptions` | `@newconstant` | `create new file`
-  Use `.github/prompts/create-file.prompt.md`.
-
-- `@newtest` | `create test file` | `add spec`
-  Use `.github/prompts/create-test.prompt.md`.
-
-- `@addtest` | `add test case` | `add describe block` | `add it block`
-  Use `.github/prompts/create-test.prompt.md`.
 
 - `@help` | `shortcut help` | `list shortcuts`
   Use `.github/prompts/shortcut-help.prompt.md`.
@@ -79,25 +56,7 @@ Shortcut routing:
 
 Documentation workflows:
 
-- `@adddocs` | `@doc` | `@docs` | `doc this file` | `document this file`
-  Use `.github/prompts/compodocs.prompt.md` as the documentation canon.
-
-- `@redodocs` | `redo docs` | `refresh docs` | `reconcile docs`
-  Use `.github/prompts/redo-docs.prompt.md`.
-  Apply `.github/prompts/compodocs.prompt.md` as the documentation canon.
-  Only reconcile stale or invalid JSDoc.
-
-- `@docspage` | `create docs page` | `document feature page` | `docs-app page`
-  Use `.github/prompts/docs-app.prompt.md`.
-  Generates stand-alone webpage documentation for the docs-app website.
-  This is distinct from source-code JSDoc — it produces website content.
-
-File creation constraints:
-
-- All configs, types, shapes, options, and interface-based contracts must be created under `libs/*/src/lib/` paths following the library placement rules in the prompt.
-- Keep interface/type/options/config contracts out of source implementation files and define them under `libs/*/src/lib/` for reuse.
-- Do not use TypeScript `enum`. Use a `const` object with `as const` and derive a union type from it.
-- For `@newsource`, prefer an exported class unless the request explicitly requires a singleton.
-- For `@newsource`, use ECMAScript private fields named in `#camelCase` format.
-- For `@newsource`, default members to `#private` unless they are part of the file's external API contract.
-- For `@newsource`, do not create tests or documentation unless explicitly requested.
+- `@stackdocs` | `stackblitz docs` | `document stackblitz file`
+  Use `.github/prompts/stackdocs.prompt.md` as the documentation canon.
+  Instructional tone — teaches the reader what is happening and why.
+  May reference `state/libs/` and `vault-engine/lib/src/` source for accuracy.

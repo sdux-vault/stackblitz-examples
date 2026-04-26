@@ -321,6 +321,7 @@ function handleToggleError(): void {
 }
 
 .hint.file {
+  min-height: 16px;
   color: #999;
   font-family: monospace;
   font-size: 0.9rem;

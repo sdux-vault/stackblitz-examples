@@ -19,7 +19,7 @@
   let snapshot = $state({
     value: exampleState.value,
     isLoading: exampleState.isLoading,
-    error: exampleState.error as Error | null,
+    error: exampleState.error as unknown | null,
     hasValue: exampleState.hasValue
   });
 
@@ -305,6 +305,7 @@
   }
 
   .hint.file {
+    min-height: 16px;
     color: #999;
     font-family: monospace;
     font-size: 0.9rem;

@@ -1,6 +1,6 @@
 {
-  "name": "angular-demo-1",
-  "version": "0.0.3",
+  "name": "angular-demo",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "ng serve --host 0.0.0.0 --port 4200"
@@ -12,6 +12,7 @@
     "@angular/compiler": "21.2.8",
     "@angular/core": "21.2.8",
     "@angular/platform-browser": "21.2.8",
+    "@sdux-vault/addons": "latest",
     "@sdux-vault/core": "latest",
     "@sdux-vault/core-extensions-angular": "latest",
     "rxjs": "~7.8.0",

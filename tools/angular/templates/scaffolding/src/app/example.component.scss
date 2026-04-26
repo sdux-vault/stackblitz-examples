@@ -115,6 +115,7 @@ $status-font-size: 0.85rem;
       margin-left: 0.5rem;
 
       &.file {
+        min-height: 16px;
         color: #999;
         font-family: monospace;
         font-size: $hint-file-font-size;
