@@ -92,7 +92,7 @@ function handleToggleError(): void {
 <template>
   <div class="example-container">
     <div class="header">
-      <div class="title">SDuX Example</div>
+      <div class="title">SDuX Vault Interceptor Delay Example</div>
       <div class="subtitle">
         This example demonstrates the delay interceptor controller: state
         updates are held for a configured duration before being released into
