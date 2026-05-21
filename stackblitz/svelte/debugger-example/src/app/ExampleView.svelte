@@ -1,0 +1,512 @@
+<script lang="ts">
+  import { onDestroy } from 'svelte';
+  import {
+    type Example,
+    exampleState,
+    exampleState$,
+    replaceExamples,
+    resetExamples,
+    toggleError,
+    toggleLoading
+  } from './example.cell';
+
+  const sample: Example[] = [
+    { id: 11, name: 'Luke', lastName: 'Skywalker' },
+    { id: 38, name: 'Leia', lastName: 'Organa' },
+    { id: 9, name: 'Han', lastName: 'Solo' }
+  ];
+
+  let snapshot = $state({
+    value: exampleState.value,
+    isLoading: exampleState.isLoading,
+    error: exampleState.error as unknown | null,
+    hasValue: exampleState.hasValue
+  });
+
+  let activeStateHint = $state('Initial value is [] (empty array)');
+  let displayActiveStateHint = $state(true);
+  let isLoading = $state(false);
+
+  const sub = exampleState$.subscribe((emit) => {
+    snapshot = {
+      value: emit.snapshot.value,
+      isLoading: emit.snapshot.isLoading,
+      error: emit.snapshot.error,
+      hasValue: emit.snapshot.hasValue
+    };
+  });
+
+  onDestroy(() => {
+    sub.unsubscribe();
+  });
+
+  /** Loads sample data into the FeatureCell pipeline. */
+  function loadSample(): void {
+    displayActiveStateHint = false;
+    activeStateHint =
+      'State updated with sample data after filters and reducers run.';
+    replaceExamples(sample);
+  }
+
+  /** Resets the FeatureCell state to its initial value. */
+  function handleResetState(): void {
+    resetExamples();
+  }
+
+  /** Toggles the loading flag on the current state. */
+  function handleToggleLoading(): void {
+    const next = !isLoading;
+    isLoading = next;
+    toggleLoading(next);
+  }
+
+  /** Toggles the error state between an Error instance and null. */
+  function handleToggleError(): void {
+    const hasError = snapshot.error !== null;
+    const error = hasError ? null : new Error('Example error message');
+    toggleError(error);
+  }
+
+  const vaultCode = `Vault({
+  devMode: true,
+  logLevel: 'off'
+})`;
+
+  const featureCellCode = `FeatureCell({
+  key: 'example-feature-cell-key',
+  initialState: [],
+  insights: {
+    wantsErrors: true,
+    wantsPayload: true,
+    wantsState: false
+  } as InsightConfig
+})`;
+</script>
+
+<div class="example-container">
+  <div class="header">
+    <div class="title">SDuX Vault Debugger Example</div>
+    <div class="subtitle">
+      This example demonstrates the SDuX Vault built-in debugger — a floating
+      panel that captures pipeline execution traces. Record a session, trigger
+      state changes, then export logs or generate an AI diagnostic report.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="label">Debugger Flow</div>
+    <div class="flow-hint">Record → FeatureCell Activity → Stop → Download</div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">1. Enable Dev Mode in Vault Definition</div>
+      <div class="hint">
+        The debugger is enabled via
+        <span class="emphasis">devMode: true</span> in the Vault configuration. This
+        example already has it enabled.
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.cell.ts
+      </div>
+      <textarea class="textarea" readonly>{vaultCode}</textarea>
+    </div>
+
+    <div class="state-container">
+      <div class="label">2. Add insights to the FeatureCell Definition</div>
+      <div class="hint">
+        <span class="emphasis">Insights</span> provide additional context for the
+        debugger to capture during pipeline execution. This example already has insights
+        enabled.
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.cell.ts
+      </div>
+      <textarea class="textarea" readonly>{featureCellCode}</textarea>
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">3. Record a Session</div>
+      <div class="hint">
+        To record a FeatureCell session, click the "Record" button, then trigger
+        state changes by clicking "Load Sample State" in the UI. The debugger
+        captures each pipeline event, including filter and reducer executions,
+        state emissions, and any errors.
+      </div>
+      <div class="hint">
+        After finishing all state changes, click "Stop" to end the recording
+        session. You can then download the captured logs as a JSON file for
+        analysis or use the AI Assist feature to generate an automated
+        diagnostic report.
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Record / Stop</td>
+            <td>Start or end a recording session</td>
+          </tr>
+          <tr>
+            <td>Event Count</td>
+            <td>Total captured pipeline events</td>
+          </tr>
+          <tr>
+            <td>Error Count</td>
+            <td>Captured error signals</td>
+          </tr>
+          <tr>
+            <td>Clear</td>
+            <td>Reset the current session</td>
+          </tr>
+          <tr>
+            <td>Download Logs</td>
+            <td>Export the debug dump (JSON)</td>
+          </tr>
+          <tr>
+            <td>AI Assist</td>
+            <td>Generate an AI diagnostic report</td>
+          </tr>
+          <tr>
+            <td>Create Issue</td>
+            <td>Generate a structured issue report</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="hint">
+      <strong>Note:</strong> This example uses a filter (removes "Han") and a
+      reducer (marks Jedi). See
+      <span class="emphasis">app/example.cell.ts</span> for the pipeline configuration.
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Input State</div>
+      <div class="hint">
+        Raw data before processing — click "Load Sample State" to trigger
+        pipeline activity
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/ExampleView.svelte
+      </div>
+      <textarea class="data-textarea" readonly
+        >{JSON.stringify(sample, null, 2)}</textarea>
+    </div>
+
+    <div class="state-container data-row">
+      <div class="label">FeatureCell State</div>
+      <div class="hint">
+        Final state after filters and reducers run — the debugger captures each
+        pipeline stage
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.cell.ts
+      </div>
+
+      {#if snapshot.isLoading}
+        <div class="status">Loading...</div>
+      {:else if snapshot.error}
+        <textarea
+          class="data-textarea error"
+          readonly
+          value={JSON.stringify(snapshot.error, null, 2)}></textarea>
+        <div class="hint state">This is a VaultError display</div>
+      {:else if snapshot.hasValue}
+        <textarea
+          class="data-textarea"
+          readonly
+          value={JSON.stringify(snapshot.value, null, 2)}></textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span>
+          {activeStateHint}
+        </div>
+        <div class="hint file">
+          {#if displayActiveStateHint}
+            <span class="emphasis">File:</span> app/example.cell.ts
+          {:else}
+            &nbsp;
+          {/if}
+        </div>
+      {:else}
+        <textarea class="data-textarea" readonly value=" "></textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> cleared - pipeline has no active value,
+          error or loading status.
+        </div>
+        <div class="hint file">
+          <span class="emphasis">File:</span> app/example.cell.ts &nbsp;
+        </div>
+      {/if}
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="actions">
+      <button type="button" class="sdux-button primary" onclick={loadSample}>
+        Load Sample State
+      </button>
+
+      <div class="secondary-actions">
+        <button type="button" class="sdux-button" onclick={handleResetState}>
+          Reset State
+        </button>
+        <button type="button" class="sdux-button" onclick={handleToggleLoading}>
+          Loading ({String(snapshot.isLoading)})
+        </button>
+        <button type="button" class="sdux-button" onclick={handleToggleError}>
+          Error ({String(snapshot.error !== null)})
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section learn-more">
+    <div class="label">Learn More</div>
+    <div class="learn-more-links">
+      <a
+        href="https://www.sdux-vault.com/docs/dev-tools/built-in-debugger"
+        target="_blank"
+        rel="noopener noreferrer">Debugger</a>
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/filters"
+        target="_blank"
+        rel="noopener noreferrer">Filters</a>
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/reducers"
+        target="_blank"
+        rel="noopener noreferrer">Reducers</a>
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell"
+        target="_blank"
+        rel="noopener noreferrer">FeatureCell</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #666;
+    max-width: 600px;
+  }
+
+  .section {
+    padding: 1rem;
+  }
+
+  .section.column {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .section.column {
+      flex-direction: column;
+    }
+
+    .section.column .state-container {
+      width: 100%;
+    }
+  }
+
+  .state-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .state-container.data-row {
+    height: 430px;
+  }
+
+  .textarea,
+  .data-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 300px;
+    padding: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: #fafafa;
+    color: #222;
+  }
+
+  .data-textarea.error {
+    color: #d33;
+  }
+
+  .textarea {
+    height: 175px;
+  }
+
+  .label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+  }
+
+  .flow-hint {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    color: #666;
+  }
+
+  .hint {
+    font-size: 1rem;
+    color: #777;
+    margin-top: -0.15rem;
+    margin-left: 0.5rem;
+  }
+
+  .hint.file {
+    min-height: 16px;
+    color: #999;
+    font-family: monospace;
+    font-size: 0.9rem;
+  }
+
+  .hint.state {
+    margin-top: 0.15rem;
+  }
+
+  .emphasis {
+    font-weight: 600;
+    color: #555;
+  }
+
+  .actions {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+  }
+
+  .secondary-actions {
+    display: flex;
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .secondary-actions {
+      gap: 1.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .status {
+    height: 300px;
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    font-family: monospace;
+    background: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.4rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .data-table th {
+    font-weight: 600;
+    color: #555;
+  }
+
+  .data-table td {
+    color: #222;
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .learn-more {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .learn-more-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .learn-more-links a {
+    color: #555;
+    text-decoration: none;
+  }
+
+  .learn-more-links a:hover {
+    text-decoration: underline;
+    color: #222;
+  }
+
+  .learn-more-links .separator {
+    color: #ccc;
+  }
+</style>
