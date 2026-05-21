@@ -8,12 +8,18 @@
     </div>
   </div>
 
+  <div class="section">
+    <div class="label">Debugger Flow</div>
+    <div class="flow-hint">Record → FeatureCell Activity → Stop → Download</div>
+  </div>
+
   <div class="section column">
     <div class="state-container">
       <div class="label">1. Enable Dev Mode in Vault Definition</div>
       <div class="hint">
-        The debugger is enabled via <code>devMode: true</code> in the Vault
-        configuration. This example already has it enabled.
+        The debugger is enabled via
+        <span class="emphasis">devMode: true</span> in the Vault configuration.
+        This example already has it enabled.
       </div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/app.config.ts
@@ -29,8 +35,9 @@ provideVault({
     <div class="state-container">
       <div class="label">2. Add insights to the FeatureCell Definition</div>
       <div class="hint">
-        Insights provide additional context for the debugger to capture during
-        pipeline execution. This example already has insights enabled.
+        <span class="emphasis">Insights</span> provide additional context for
+        the debugger to capture during pipeline execution. This example already
+        has insights enabled.
       </div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/app.config.ts
@@ -215,6 +222,13 @@ provideVault({
         target="_blank"
         rel="noopener noreferrer"
         >Reducers</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/apis/provide-feature-cell"
+        target="_blank"
+        rel="noopener noreferrer"
+        >FeatureCell</a
       >
     </div>
   </div>
