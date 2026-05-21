@@ -29,6 +29,7 @@ These languages have working StackBlitz examples available in the `stackblitz/` 
 | 1     | Angular | High            | — (source)            |
 | 2     | React   | High            | Low                   |
 | 3     | Vue     | High            | Low                   |
+| 4     | Svelte  | Medium          | Medium                |
 
 ### Road Map Demos
 
@@ -36,7 +37,6 @@ These languages are planned for future examples, listed in recommended implement
 
 | Order | Name               | Demo Priority | Ecosystem Usage | Conversion Difficulty |
 | ----- | ------------------ | ------------- | --------------- | --------------------- |
-| 4     | Svelte             | High          | Medium          | Medium                |
 | 5     | Vanilla JavaScript | Medium        | High            | Low                   |
 | 6     | Node.js            | Medium        | High            | Low                   |
 | 7     | Solid              | Medium        | Low-Medium      | Medium                |
