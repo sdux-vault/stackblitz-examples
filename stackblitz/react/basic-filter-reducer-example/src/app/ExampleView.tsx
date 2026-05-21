@@ -83,7 +83,7 @@ export function ExampleView() {
       </div>
 
       <div className="section">
-        <div className="label">Flow</div>
+        <div className="label">FeatureCell Flow</div>
         <div className="flow-hint">Input → Filter → Reducer → Output</div>
       </div>
 

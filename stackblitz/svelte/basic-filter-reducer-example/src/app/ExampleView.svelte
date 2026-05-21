@@ -99,7 +99,7 @@
   </div>
 
   <div class="section">
-    <div class="label">Flow</div>
+    <div class="label">FeatureCell Flow</div>
     <div class="flow-hint">Input → Filter → Reducer → Output</div>
   </div>
 
@@ -257,7 +257,7 @@
   }
 
   .state-container.data-row {
-    height: 415px;
+    height: 430px;
   }
 
   .textarea,

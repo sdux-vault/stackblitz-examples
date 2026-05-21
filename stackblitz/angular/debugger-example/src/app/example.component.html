@@ -1,0 +1,218 @@
+<div class="example-container">
+  <div class="header">
+    <div class="title">SDuX Vault Debugger Example</div>
+    <div class="subtitle">
+      This example demonstrates the SDuX Vault built-in debugger — a floating
+      panel that captures pipeline execution traces. Record a session, trigger
+      state changes, then export logs or generate an AI diagnostic report.
+    </div>
+    <div class="subtitle">
+      See also:
+      <a
+        href="https://www.sdux-vault.com/docs/dev-tools/built-in-debugger"
+        target="_blank"
+        rel="noopener noreferrer"
+        >SDuX Vault Debugger</a
+      >
+      &nbsp; | &nbsp;
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/filters"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Filters</a
+      >
+      &nbsp; | &nbsp;
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/reducers"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Reducers</a
+      >
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">1. Enable Dev Mode in Vault Definition</div>
+      <div class="hint">
+        The debugger is enabled via <code>devMode: true</code> in the Vault
+        configuration. This example already has it enabled.
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/app.config.ts
+      </div>
+      <textarea class="textarea" readonly>
+provideVault({
+  devMode: true,
+  logLevel: 'off'
+})
+      </textarea>
+    </div>
+
+    <div class="state-container">
+      <div class="label">2. Add insights to the FeatureCell Definition</div>
+      <div class="hint">
+        Insights provide additional context for the debugger to capture during
+        pipeline execution. This example already has insights enabled.
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/app.config.ts
+      </div>
+      <textarea class="textarea" readonly>
+ provideFeatureCell(
+  ExampleService,
+  {
+    key: 'example-feature-cell-key',
+    initialState: [],
+    insights: {
+      wantsErrors: true,
+      wantsPayload: true,
+      wantsState: false
+    } as InsightConfig
+  }
+)
+      </textarea>
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">3. Record a Session</div>
+      <div class="hint">
+        To record a FeatureCell session, click the "Record" button, then trigger
+        state changes by clicking "Load Sample State" in the UI. The debugger
+        captures each pipeline event, including filter and reducer executions,
+        state emissions, and any errors.
+      </div>
+      <div class="hint">
+        After finishing all state changes, click "Stop" to end the recording
+        session. You can then download the captured logs as a JSON file for
+        analysis or use the AI Assist feature to generate an automated
+        diagnostic report.
+      </div>
+      <table class="controls-table">
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Record / Stop</td>
+            <td>Start or end a recording session</td>
+          </tr>
+          <tr>
+            <td>Event Count</td>
+            <td>Total captured pipeline events</td>
+          </tr>
+          <tr>
+            <td>Error Count</td>
+            <td>Captured error signals</td>
+          </tr>
+          <tr>
+            <td>Clear</td>
+            <td>Reset the current session</td>
+          </tr>
+          <tr>
+            <td>Download Logs</td>
+            <td>Export the debug dump (JSON)</td>
+          </tr>
+          <tr>
+            <td>AI Assist</td>
+            <td>Generate an AI diagnostic report</td>
+          </tr>
+          <tr>
+            <td>Create Issue</td>
+            <td>Generate a structured issue report</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="hint">
+      <strong>Note:</strong> This example uses a filter (removes "Han") and a
+      reducer (marks Jedi). See
+      <span class="emphasis">app/example.service.ts</span> for the pipeline
+      configuration.
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Input State</div>
+      <div class="hint">
+        Raw data before processing — click "Load Sample State" to trigger
+        pipeline activity
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.component.ts
+      </div>
+      <textarea class="data-textarea">{{ sample | json }}</textarea>
+    </div>
+
+    <div class="state-container data-row">
+      <div class="label">FeatureCell State</div>
+      <div class="hint">
+        Final state after filters and reducers run — the debugger captures each
+        pipeline stage
+      </div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      @if (state.isLoading()) {
+        <div class="status">Loading...</div>
+      } @else if (state.error()) {
+        <textarea class="data-textarea error" readonly
+          >{{ state.error() | json }}
+        </textarea>
+        <div class="hint state">This is a VaultError display</div>
+      } @else if (state.hasValue()) {
+        <textarea class="data-textarea" readonly
+          >{{ state.value() | json }}
+        </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> {{ activeStateHint() }}
+        </div>
+        <div class="hint file">
+          @if (displayActiveStateHint()) {
+            <span class="emphasis">File:</span> app/app.config.ts
+          } @else {
+            &nbsp;
+          }
+        </div>
+      } @else {
+        <textarea class="data-textarea" readonly> </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> cleared - pipeline has no active
+          value, error or loading status.
+        </div>
+        <div class="hint file">
+          <span class="emphasis">File:</span> app/app.config.ts &nbsp;
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="actions">
+      <button type="button" class="sdux-button primary" (click)="loadSample()">
+        Load Sample State
+      </button>
+
+      <div class="secondary-actions">
+        <button type="button" class="sdux-button" (click)="resetState()">
+          Reset State
+        </button>
+        <button type="button" class="sdux-button" (click)="toggleLoading()">
+          Loading ({{ state.isLoading() }})
+        </button>
+        <button type="button" class="sdux-button" (click)="toggleError()">
+          Error ({{ hasError() }})
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
