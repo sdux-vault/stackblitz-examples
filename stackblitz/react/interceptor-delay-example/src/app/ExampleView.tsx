@@ -227,6 +227,25 @@ export function ExampleView() {
           </div>
         </div>
       </div>
+
+      <div className="section learn-more">
+        <div className="label">Learn More</div>
+        <div className="learn-more-links">
+          <a
+            href="https://www.sdux-vault.com/docs/pipeline/controllers/with-delay-controller"
+            target="_blank"
+            rel="noopener noreferrer">
+            Delay Controller
+          </a>
+          <span className="separator">·</span>
+          <a
+            href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell"
+            target="_blank"
+            rel="noopener noreferrer">
+            FeatureCell
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

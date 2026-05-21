@@ -198,6 +198,21 @@
       </div>
     </div>
   </div>
+
+  <div class="section learn-more">
+    <div class="label">Learn More</div>
+    <div class="learn-more-links">
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/controllers/with-delay-controller"
+        target="_blank"
+        rel="noopener noreferrer">Delay Controller</a>
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell"
+        target="_blank"
+        rel="noopener noreferrer">FeatureCell</a>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -354,5 +369,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .learn-more {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .learn-more-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .learn-more-links a {
+    color: #555;
+    text-decoration: none;
+  }
+
+  .learn-more-links a:hover {
+    text-decoration: underline;
+    color: #222;
+  }
+
+  .learn-more-links .separator {
+    color: #ccc;
   }
 </style>

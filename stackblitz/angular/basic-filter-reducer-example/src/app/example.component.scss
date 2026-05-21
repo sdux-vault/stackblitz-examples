@@ -164,4 +164,31 @@ $status-font-size: 0.85rem;
     align-items: center;
     justify-content: center;
   }
+
+  .learn-more {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    .learn-more-links {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: $hint-font-size;
+
+      a {
+        color: #555;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          color: #222;
+        }
+      }
+
+      .separator {
+        color: #ccc;
+      }
+    }
+  }
 }

@@ -214,6 +214,32 @@ function handleToggleError(): void {
         </div>
       </div>
     </div>
+
+    <div class="section learn-more">
+      <div class="label">Learn More</div>
+      <div class="learn-more-links">
+        <a
+          href="https://www.sdux-vault.com/docs/pipeline/behaviors/filters"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Filters</a
+        >
+        <span class="separator">·</span>
+        <a
+          href="https://www.sdux-vault.com/docs/pipeline/behaviors/reducers"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Reducers</a
+        >
+        <span class="separator">·</span>
+        <a
+          href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell"
+          target="_blank"
+          rel="noopener noreferrer"
+          >FeatureCell</a
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -371,5 +397,32 @@ function handleToggleError(): void {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.learn-more {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.learn-more-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+}
+
+.learn-more-links a {
+  color: #555;
+  text-decoration: none;
+}
+
+.learn-more-links a:hover {
+  text-decoration: underline;
+  color: #222;
+}
+
+.learn-more-links .separator {
+  color: #ccc;
 }
 </style>
