@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FeatureCell, injectVault } from '@sdux-vault/core-extensions-angular';
+import { FeatureCell, injectVault } from '@sdux-vault/angular';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.

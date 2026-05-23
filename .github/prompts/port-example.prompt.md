@@ -141,7 +141,7 @@ the target example's `src/app/` directory with no modifications.
 - Set `version` to `0.0.1`
 - Include `@sdux-vault/core: "latest"` in dependencies
 - Include `@sdux-vault/addons: "latest"` if the Angular example uses addons
-- Do NOT include `@sdux-vault/core-extensions-angular` — that is Angular-only
+- Do NOT include `@sdux-vault/angular` — that is Angular-only
 - Match framework deps to the scaffolding template versions
 
 ---

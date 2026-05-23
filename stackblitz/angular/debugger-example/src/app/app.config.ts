@@ -1,8 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import {
-  provideFeatureCell,
-  provideVault
-} from '@sdux-vault/core-extensions-angular';
+import { provideFeatureCell, provideVault } from '@sdux-vault/angular';
 import { InsightConfig } from '@sdux-vault/shared';
 import { ExampleService } from './example.service';
 

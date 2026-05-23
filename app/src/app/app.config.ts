@@ -1,9 +1,6 @@
 import { ApplicationConfig } from '@angular/core';
 import { withDelayController } from '@sdux-vault/addons';
-import {
-  provideFeatureCell,
-  provideVault
-} from '@sdux-vault/core-extensions-angular';
+import { provideFeatureCell, provideVault } from '@sdux-vault/angular';
 import { ExampleService } from './example.service';
 
 /**
