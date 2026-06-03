@@ -1,5 +1,6 @@
 ---
-agent: ask
+name: addStackDocs
+agent: agent
 description: 'Use when generating or updating JSDoc in StackBlitz example files with a teaching tone (examples: @stackdocs, document stackblitz file).'
 ---
 

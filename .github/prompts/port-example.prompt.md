@@ -1,5 +1,6 @@
 ---
-agent: ask
+name: portExample
+agent: agent
 description: 'Port an Angular StackBlitz example to another framework (React, Vue, or Svelte). Usage: @port <angular-example-name> --to=<framework>'
 ---
 
