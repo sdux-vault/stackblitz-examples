@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+$button-height: 40px;
+$color: #ffffff;
+$background: #1976d2;
+$border: #004ba0;
+$radius: 0.3125rem;
+$font-size: 0.875rem; // 14px
+$spacing-xs: 0.25rem; // 4px
+$padding: 0.5rem;
+$font-weight-semibold: 600;
+
+$button-icon-size: 22px;
+$min-width: 30px !important;
+
+.example-container {
+  padding: $spacing-xs;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.sdux-button {
+  height: $button-height !important;
+  color: $color !important;
+  background-color: $background !important;
+  border: 1px solid $border !important;
+  border-radius: $radius !important;
+  font-size: $font-size !important;
+  padding: $padding;
+  gap: $spacing-xs;
+  font-weight: $font-weight-semibold;
+
+  min-width: 125px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .mat-icon {
+    transform: scale(0.75);
+  }
+
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .button-text {
+    height: $button-height;
+  }
+
+  .mat-icon {
+    width: $button-icon-size !important;
+    height: $button-icon-size !important;
+    position: relative;
+    padding-left: $spacing-xs;
+    padding-right: $spacing-xs;
+    gap: $spacing-xs; // Ensures uniform spacing
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
