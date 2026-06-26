@@ -5,33 +5,42 @@
     exampleState,
     exampleState$,
     replaceExamples,
-    resetExamples,
-    toggleError,
-    toggleLoading
+    resetExamples
   } from './example.cell';
 
-  const sample: Example[] = [
-    { id: 11, name: 'Luke', lastName: 'Skywalker' },
-    { id: 38, name: 'Leia', lastName: 'Organa' },
-    { id: 9, name: 'Han', lastName: 'Solo' }
+  /**
+   * Sample datasets used to demonstrate state replacement and cross-tab sync.
+   */
+  const samples: Example[][] = [
+    [
+      { id: 11, name: 'Luke', lastName: 'Skywalker' },
+      { id: 38, name: 'Leia', lastName: 'Organa' },
+      { id: 9, name: 'Han', lastName: 'Solo' }
+    ],
+    [
+      { id: 22, name: 'Anakin', lastName: 'Skywalker' },
+      { id: 44, name: 'Padmé', lastName: 'Amidala' },
+      { id: 66, name: 'Obi-Wan', lastName: 'Kenobi' }
+    ],
+    [
+      { id: 77, name: 'Din', lastName: 'Djarin' },
+      { id: 88, name: 'Ahsoka', lastName: 'Tano' },
+      { id: 99, name: 'Bo-Katan', lastName: 'Kryze' }
+    ]
   ];
 
   let snapshot = $state({
     value: exampleState.value,
-    isLoading: exampleState.isLoading,
-    error: exampleState.error as unknown | null,
     hasValue: exampleState.hasValue
   });
 
+  let activeSample: Example[] = $state(samples[0]);
   let activeStateHint = $state('Initial value is [] (empty array)');
   let displayActiveStateHint = $state(true);
-  let isLoading = $state(false);
 
   const sub = exampleState$.subscribe((emit) => {
     snapshot = {
       value: emit.snapshot.value,
-      isLoading: emit.snapshot.isLoading,
-      error: emit.snapshot.error,
       hasValue: emit.snapshot.hasValue
     };
   });
@@ -40,12 +49,16 @@
     sub.unsubscribe();
   });
 
-  /** Loads sample data into the FeatureCell pipeline. */
+  /**
+   * Loads the active sample into the FeatureCell pipeline.
+   *
+   * When Tab Sync is enabled, the pipeline broadcasts the
+   * finalized snapshot to all other tabs via BroadcastChannel.
+   */
   function loadSample(): void {
     displayActiveStateHint = false;
-    activeStateHint =
-      'State updated with sample data after filters and reducers run.';
-    replaceExamples(sample);
+    activeStateHint = 'State updated and broadcast to all tabs.';
+    replaceExamples($state.snapshot(activeSample));
   }
 
   /** Resets the FeatureCell state to its initial value. */
@@ -53,105 +66,72 @@
     resetExamples();
   }
 
-  /** Toggles the loading flag on the current state. */
-  function handleToggleLoading(): void {
-    const next = !isLoading;
-    isLoading = next;
-    toggleLoading(next);
+  /** Updates the active sample when the dropdown selection changes. */
+  function handleSampleChange(event: Event): void {
+    const index = Number((event.target as HTMLSelectElement).value);
+    activeSample = samples[index];
   }
-
-  /** Toggles the error state between an Error instance and null. */
-  function handleToggleError(): void {
-    const hasError = snapshot.error !== null;
-    const error = hasError ? null : new Error('Example error message');
-    toggleError(error);
-  }
-
-  const filterCode = `[
-  (examples: Example[]) => {
-
-    return examples.filter(
-      (example: Example) => example.name !== 'Han'
-    );
-  }
-]`;
-
-  const reducerCode = `[
-  (examples: Example[]) => {
-    return examples.map((example: Example) => {
-      if (example.id === 11) {
-        return { ...example, jedi: true };
-      }
-      return example;
-    });
-  }
-]`;
 </script>
 
 <div class="example-container">
   <div class="header">
-    <div class="title">Svelte - SDuX Vault Filter and Reducer Example</div>
+    <div class="title">Svelte - SDuX Vault Tab Sync Example</div>
     <div class="subtitle">
-      This example shows how SDuX processes state through a pipeline: input data
-      flows through filters and reducers before becoming the final FeatureCell
-      state.
+      This example demonstrates cross-tab state synchronization. Open this page
+      in two browser tabs — updating state in one tab automatically propagates
+      the change to the other via BroadcastChannel.
     </div>
   </div>
 
   <div class="section">
-    <div class="label">FeatureCell Flow</div>
-    <div class="flow-hint">Input → Filter → Reducer → Output</div>
+    <div class="label">Tab Sync Flow</div>
+    <div class="flow-hint">Tab A → BroadcastChannel → Tab B</div>
   </div>
 
-  <div class="section column">
+  <div class="section">
     <div class="state-container">
-      <div class="label">Filter</div>
+      <label class="label" for="sample-select">Sample Dataset</label>
       <div class="hint">
-        Removes or blocks data before it enters the pipeline
+        Choose a character group to use as input state. Selecting a dataset
+        updates the input preview — click Load & Sync State to apply it.
       </div>
-      <div class="hint file">
-        <span class="emphasis">File:</span> app/example.cell.ts
+      <div class="hint">
+        <select
+          id="sample-select"
+          class="sdux-select"
+          onchange={handleSampleChange}>
+          {#each samples as sample, index}
+            <option value={index} selected={index === 0}>
+              {sample[0].name}
+              {sample[0].lastName}, {sample[1].name}
+              {sample[1].lastName}, {sample[2].name}
+              {sample[2].lastName}
+            </option>
+          {/each}
+        </select>
       </div>
-      <textarea class="textarea" readonly>{filterCode}</textarea>
-    </div>
-
-    <div class="state-container">
-      <div class="label">Reducer</div>
-      <div class="hint">Transforms each item in the state</div>
-      <div class="hint file">
-        <span class="emphasis">File:</span> app/example.cell.ts
-      </div>
-      <textarea class="textarea" readonly>{reducerCode}</textarea>
     </div>
   </div>
 
   <div class="section column">
     <div class="state-container">
       <div class="label">Input State</div>
-      <div class="hint">Raw data before processing</div>
+      <div class="hint">Data to replace and broadcast across tabs</div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/ExampleView.svelte
       </div>
       <textarea class="data-textarea" readonly
-        >{JSON.stringify(sample, null, 2)}</textarea>
+        >{JSON.stringify(activeSample, null, 2)}</textarea>
     </div>
 
     <div class="state-container data-row">
-      <div class="label">FeatureCell State</div>
-      <div class="hint">Final state after filters and reducers run</div>
+      <div class="label">Synced FeatureCell State</div>
+      <div class="hint">State synchronized across tabs</div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/example.cell.ts
       </div>
 
-      {#if snapshot.isLoading}
-        <div class="status">Loading...</div>
-      {:else if snapshot.error}
-        <textarea
-          class="data-textarea error"
-          readonly
-          value={JSON.stringify(snapshot.error, null, 2)}></textarea>
-        <div class="hint state">This is a VaultError display</div>
-      {:else if snapshot.hasValue}
+      {#if snapshot.hasValue}
         <textarea
           class="data-textarea"
           readonly
@@ -170,8 +150,8 @@
       {:else}
         <textarea class="data-textarea" readonly value=" "></textarea>
         <div class="hint state">
-          <span class="emphasis">State:</span> cleared - pipeline has no active value,
-          error or loading status.
+          <span class="emphasis">State:</span> cleared - pipeline has no active value
+          for state.
         </div>
         <div class="hint file">
           <span class="emphasis">File:</span> app/example.cell.ts &nbsp;
@@ -183,18 +163,12 @@
   <div class="section">
     <div class="actions">
       <button type="button" class="sdux-button primary" onclick={loadSample}>
-        Load Sample State
+        Load & Sync State
       </button>
 
       <div class="secondary-actions">
         <button type="button" class="sdux-button" onclick={handleResetState}>
           Reset State
-        </button>
-        <button type="button" class="sdux-button" onclick={handleToggleLoading}>
-          Loading ({String(snapshot.isLoading)})
-        </button>
-        <button type="button" class="sdux-button" onclick={handleToggleError}>
-          Error ({String(snapshot.error !== null)})
         </button>
       </div>
     </div>
@@ -204,14 +178,19 @@
     <div class="label">Learn More</div>
     <div class="learn-more-links">
       <a
-        href="https://www.sdux-vault.com/docs/pipeline/behaviors/filters"
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state"
         target="_blank"
-        rel="noopener noreferrer">Filters</a>
+        rel="noopener noreferrer">State</a>
       <span class="separator">·</span>
       <a
-        href="https://www.sdux-vault.com/docs/pipeline/behaviors/reducers"
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/tab-sync"
         target="_blank"
-        rel="noopener noreferrer">Reducers</a>
+        rel="noopener noreferrer">Tab Sync</a>
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state/updating"
+        target="_blank"
+        rel="noopener noreferrer">Updating State</a>
       <span class="separator">·</span>
       <a
         href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell"

@@ -1,39 +1,43 @@
 <script setup lang="ts">
 import type { Subscription } from 'rxjs';
 import { onMounted, onUnmounted, ref } from 'vue';
-import { ElapsedTimer } from './elapsed-timer';
 import {
   type Example,
   exampleState,
   exampleState$,
   replaceExamples,
-  resetExamples,
-  toggleError,
-  toggleLoading
+  resetExamples
 } from './example.cell';
 
-const sample: Example[] = [
-  { id: 11, name: 'Luke', lastName: 'Skywalker' },
-  { id: 38, name: 'Leia', lastName: 'Organa' },
-  { id: 9, name: 'Han', lastName: 'Solo' }
+/**
+ * Sample datasets used to demonstrate state replacement and cross-tab sync.
+ */
+const samples: Example[][] = [
+  [
+    { id: 11, name: 'Luke', lastName: 'Skywalker' },
+    { id: 38, name: 'Leia', lastName: 'Organa' },
+    { id: 9, name: 'Han', lastName: 'Solo' }
+  ],
+  [
+    { id: 22, name: 'Anakin', lastName: 'Skywalker' },
+    { id: 44, name: 'Padmé', lastName: 'Amidala' },
+    { id: 66, name: 'Obi-Wan', lastName: 'Kenobi' }
+  ],
+  [
+    { id: 77, name: 'Din', lastName: 'Djarin' },
+    { id: 88, name: 'Ahsoka', lastName: 'Tano' },
+    { id: 99, name: 'Bo-Katan', lastName: 'Kryze' }
+  ]
 ];
 
 const snapshot = ref({
   value: exampleState.value,
-  isLoading: exampleState.isLoading,
-  error: exampleState.error as unknown,
   hasValue: exampleState.hasValue
 });
 
+const activeSample = ref<Example[]>(samples[0]);
 const activeStateHint = ref('Initial value is [] (empty array)');
 const displayActiveStateHint = ref(true);
-const isLoading = ref(false);
-const timerDisplay = ref('0.000');
-
-/** Framework-agnostic elapsed timer instance. */
-const timer = new ElapsedTimer((ms) => {
-  timerDisplay.value = ElapsedTimer.format(ms);
-});
 
 let sub: Subscription;
 
@@ -41,8 +45,6 @@ onMounted(() => {
   sub = exampleState$.subscribe((emit) => {
     snapshot.value = {
       value: emit.snapshot.value,
-      isLoading: emit.snapshot.isLoading,
-      error: emit.snapshot.error,
       hasValue: emit.snapshot.hasValue
     };
   });
@@ -50,119 +52,95 @@ onMounted(() => {
 
 onUnmounted(() => {
   sub?.unsubscribe();
-  timer.destroy();
 });
 
 /**
- * Loads sample data into the FeatureCell pipeline.
+ * Loads the active sample into the FeatureCell pipeline.
  *
- * The data enters the delay interceptor and is held for 3 seconds
- * before being released to the output state. The elapsed timer
- * starts to visualize the hold window.
+ * When Tab Sync is enabled, the pipeline broadcasts the
+ * finalized snapshot to all other tabs via BroadcastChannel.
  */
 function loadSample(): void {
   displayActiveStateHint.value = false;
-  activeStateHint.value =
-    'State updated with sample data after filters and reducers run.';
-  replaceExamples(sample);
-  timer.start();
+  activeStateHint.value = 'State updated and broadcast to all tabs.';
+  replaceExamples(activeSample.value);
 }
 
 /** Resets the FeatureCell state to its initial value. */
 function handleResetState(): void {
   resetExamples();
-  timer.reset();
 }
 
-/** Toggles the loading flag on the current state. */
-function handleToggleLoading(): void {
-  const next = !isLoading.value;
-  isLoading.value = next;
-  toggleLoading(next);
-}
-
-/** Toggles the error state between an Error instance and null. */
-function handleToggleError(): void {
-  const hasError = snapshot.value.error !== null;
-  const error = hasError ? null : new Error('Example error message');
-  toggleError(error);
+/** Updates the active sample when the dropdown selection changes. */
+function handleSampleChange(event: Event): void {
+  const index = Number((event.target as HTMLSelectElement).value);
+  activeSample.value = samples[index];
 }
 </script>
 
 <template>
   <div class="example-container">
     <div class="header">
-      <div class="title">Vue - SDuX Vault Interceptor Delay Example</div>
+      <div class="title">Vue - SDuX Vault Tab Sync Example</div>
       <div class="subtitle">
-        This example demonstrates the delay interceptor controller: state
-        updates are held for a configured duration before being released into
-        the pipeline, letting you observe the delayed commit in real time.
+        This example demonstrates cross-tab state synchronization. Open this
+        page in two browser tabs — updating state in one tab automatically
+        propagates the change to the other via BroadcastChannel.
       </div>
     </div>
 
     <div class="section">
-      <div class="label">FeatureCell Flow</div>
-      <div class="flow-hint">Input → Interceptor → Output</div>
+      <div class="label">Tab Sync Flow</div>
+      <div class="flow-hint">Tab A → BroadcastChannel → Tab B</div>
     </div>
 
-    <div class="section column">
+    <div class="section">
       <div class="state-container">
-        <div class="label">Delay (Interceptor)</div>
+        <label class="label" for="sample-select">Sample Dataset</label>
         <div class="hint">
-          Holds state updates for a configured delay before releasing them into
-          the pipeline
+          Choose a character group to use as input state. Selecting a dataset
+          updates the input preview — click Load &amp; Sync State to apply it.
         </div>
-        <div class="hint file">
-          <span class="emphasis">File:</span> app/example.cell.ts
-        </div>
-        <textarea class="textarea" readonly>
-.withDelay?.({ millisecondDelay: 3_000 })</textarea
-        >
-      </div>
-
-      <div class="state-container">
-        <div class="label">Delay Timer</div>
         <div class="hint">
-          All data is held for 3 seconds before entering the pipeline
+          <select
+            id="sample-select"
+            class="sdux-select"
+            @change="handleSampleChange">
+            <option
+              v-for="(sample, index) in samples"
+              :key="index"
+              :value="index"
+              :selected="index === 0">
+              {{ sample[0].name }} {{ sample[0].lastName }},
+              {{ sample[1].name }} {{ sample[1].lastName }},
+              {{ sample[2].name }} {{ sample[2].lastName }}
+            </option>
+          </select>
         </div>
-        <div class="hint file"></div>
-        <textarea class="textarea" readonly>{{ timerDisplay }}s</textarea>
       </div>
     </div>
 
     <div class="section column">
       <div class="state-container">
         <div class="label">Input State</div>
-        <div class="hint">Raw data before processing</div>
+        <div class="hint">Data to replace and broadcast across tabs</div>
         <div class="hint file">
           <span class="emphasis">File:</span> app/ExampleView.vue
         </div>
         <textarea
           class="data-textarea"
           readonly
-          :value="JSON.stringify(sample, null, 2)" />
+          :value="JSON.stringify(activeSample, null, 2)" />
       </div>
 
       <div class="state-container data-row">
-        <div class="label">FeatureCell State</div>
-        <div class="hint">Final state after filters and reducers run</div>
+        <div class="label">Synced FeatureCell State</div>
+        <div class="hint">State synchronized across tabs</div>
         <div class="hint file">
           <span class="emphasis">File:</span> app/example.cell.ts
         </div>
 
-        <template v-if="snapshot.isLoading">
-          <div class="status">Loading...</div>
-        </template>
-
-        <template v-else-if="snapshot.error">
-          <textarea
-            class="data-textarea error"
-            readonly
-            :value="JSON.stringify(snapshot.error, null, 2)" />
-          <div class="hint state">This is a VaultError display</div>
-        </template>
-
-        <template v-else-if="snapshot.hasValue">
+        <template v-if="snapshot.hasValue">
           <textarea
             class="data-textarea"
             readonly
@@ -182,7 +160,7 @@ function handleToggleError(): void {
           <textarea class="data-textarea" readonly value=" " />
           <div class="hint state">
             <span class="emphasis">State:</span> cleared - pipeline has no
-            active value, error or loading status.
+            active value for state.
           </div>
           <div class="hint file">
             <span class="emphasis">File:</span> app/example.cell.ts &nbsp;
@@ -194,21 +172,12 @@ function handleToggleError(): void {
     <div class="section">
       <div class="actions">
         <button type="button" class="sdux-button primary" @click="loadSample">
-          Load Sample State
+          Load &amp; Sync State
         </button>
 
         <div class="secondary-actions">
           <button type="button" class="sdux-button" @click="handleResetState">
             Reset State
-          </button>
-          <button
-            type="button"
-            class="sdux-button"
-            @click="handleToggleLoading">
-            Loading ({{ String(snapshot.isLoading) }})
-          </button>
-          <button type="button" class="sdux-button" @click="handleToggleError">
-            Error ({{ String(snapshot.error !== null) }})
           </button>
         </div>
       </div>
@@ -218,10 +187,24 @@ function handleToggleError(): void {
       <div class="label">Learn More</div>
       <div class="learn-more-links">
         <a
-          href="https://www.sdux-vault.com/docs/pipeline/controllers/with-delay-controller"
+          href="https://www.sdux-vault.com/docs/pipeline/behaviors/state"
           target="_blank"
           rel="noopener noreferrer"
-          >Delay Controller</a
+          >State</a
+        >
+        <span class="separator">·</span>
+        <a
+          href="https://www.sdux-vault.com/docs/pipeline/behaviors/tab-sync"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Tab Sync</a
+        >
+        <span class="separator">·</span>
+        <a
+          href="https://www.sdux-vault.com/docs/pipeline/behaviors/state/updating"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Updating State</a
         >
         <span class="separator">·</span>
         <a
@@ -313,7 +296,7 @@ function handleToggleError(): void {
 }
 
 .textarea {
-  height: 75px;
+  height: 175px;
 }
 
 .label {

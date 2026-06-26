@@ -50,7 +50,7 @@ export function ExampleView() {
   return (
     <div className="example-container">
       <div className="header">
-        <div className="title">SDuX Vault Replace Example</div>
+        <div className="title">React - SDuX Vault Replace Example</div>
         <div className="subtitle">
           This example demonstrates replaceState — the simplest way to update a
           FeatureCell. The entire previous state is discarded and replaced with
