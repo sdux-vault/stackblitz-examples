@@ -85,7 +85,7 @@
 
 <div class="example-container">
   <div class="header">
-    <div class="title">SDuX Vault Debugger Example</div>
+    <div class="title">Svelte - SDuX Vault Debugger Example</div>
     <div class="subtitle">
       This example demonstrates the SDuX Vault built-in debugger — a floating
       panel that captures pipeline execution traces. Record a session, trigger

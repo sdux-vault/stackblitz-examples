@@ -1,0 +1,126 @@
+<div class="example-container">
+  <div class="header">
+    <div class="title">Angular - SDuX Vault Tab Sync Example</div>
+    <div class="subtitle">
+      This example demonstrates cross-tab state synchronization. Open this page
+      in two browser tabs — updating state in one tab automatically propagates
+      the change to the other via BroadcastChannel.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="label">Tab Sync Flow</div>
+    <div class="flow-hint">Tab A → BroadcastChannel → Tab B</div>
+  </div>
+  <div class="section">
+    <div class="state-container">
+      <label class="label" for="sample-select">Sample Dataset</label>
+      <div class="hint">
+        Choose a character group to use as input state. Selecting a dataset
+        updates the input preview — click Load Sample State to apply it.
+      </div>
+      <div class="hint">
+        <select
+          id="sample-select"
+          class="sdux-select"
+          (change)="onSampleChange($event)">
+          @for (sample of samples; track $index) {
+            <option [value]="$index" [selected]="$index === 0">
+              {{ sample[0].name }} {{ sample[0].lastName }},
+              {{ sample[1].name }} {{ sample[1].lastName }},
+              {{ sample[2].name }} {{ sample[2].lastName }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Input State</div>
+      <div class="hint">Data to replace and broadcast across tabs</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.component.ts
+      </div>
+      <textarea class="data-textarea">{{ activeSample() | json }}</textarea>
+    </div>
+
+    <div class="state-container data-row">
+      <div class="label">Synced FeatureCell State</div>
+      <div class="hint">State synchronized across tabs</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      @if (state.hasValue()) {
+        <textarea class="data-textarea" readonly
+          >{{ state.value() | json }}
+        </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> {{ activeStateHint() }}
+        </div>
+        <div class="hint file">
+          @if (displayActiveStateHint()) {
+            <span class="emphasis">File:</span> app/app.config.ts
+          } @else {
+            &nbsp;
+          }
+        </div>
+      } @else {
+        <textarea class="data-textarea" readonly> </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> cleared - pipeline has no active
+          value for state.
+        </div>
+        <div class="hint file">
+          <span class="emphasis">File:</span> app/app.config.ts &nbsp;
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="actions">
+      <button class="sdux-button primary" (click)="loadSample()">
+        Load &amp; Sync State
+      </button>
+
+      <div class="secondary-actions">
+        <button class="sdux-button" (click)="resetState()">Reset State</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section learn-more">
+    <div class="label">Learn More</div>
+    <div class="learn-more-links">
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state"
+        target="_blank"
+        rel="noopener noreferrer"
+        >State</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/tab-sync"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Tab Sync</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state/updating"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Updating State</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/apis/provide-feature-cell"
+        target="_blank"
+        rel="noopener noreferrer"
+        >FeatureCell</a
+      >
+    </div>
+  </div>
+</div>
