@@ -16,7 +16,27 @@ import { ExampleService } from './example.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     // Creates the Vault runtime (state container + lifecycle)
-    provideVault({ logLevel: 'off', devMode: true, bypassLicensing: true }),
+    provideVault({
+      /**
+       * Controls the verbosity of internal logging.
+       * Levels: `'debug' | 'info' | 'warn' | 'error' | 'off'`.
+       * Set to `'debug'` during development to trace pipeline activity.
+       */
+      logLevel: 'off',
+
+      /**
+       * Enables development-mode diagnostics.
+       * When `true`, the SDuX Debugger panel and Chrome Extension
+       * receive real-time pipeline trace events.
+       */
+      devMode: true,
+
+      /**
+       * Disables license validation for demo environments.
+       * Use only in StackBlitz or local playground setups.
+       */
+      bypassLicensing: true
+    }),
 
     // Define a FeatureCell (state + behaviors + controllers)
     provideFeatureCell(

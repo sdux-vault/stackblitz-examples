@@ -9,7 +9,21 @@ export interface Example {
 }
 
 // Initialize the Vault once at application startup
-Vault({ logLevel: 'off' });
+Vault({
+  /**
+   * Controls the verbosity of internal logging.
+   * Levels: `'debug' | 'info' | 'warn' | 'error' | 'off'`.
+   * Set to `'debug'` during development to trace pipeline activity.
+   */
+  logLevel: 'off',
+
+  /**
+   * Enables development-mode diagnostics.
+   * When `true`, the SDuX Debugger panel and Chrome Extension
+   * receive real-time pipeline trace events.
+   */
+  devMode: false
+});
 
 // Register the FeatureCell at module scope
 const exampleCell = FeatureCell<Example[]>({

@@ -12,7 +12,7 @@ import { ExampleService } from './example.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     // Creates the Vault runtime (state container + lifecycle)
-    provideVault({ logLevel: 'off' }),
+    provideVault({ logLevel: 'off', devMode: false }),
 
     // Define a FeatureCell (state + behaviors + controllers)
     provideFeatureCell(
