@@ -13,7 +13,18 @@ export const appConfig: ApplicationConfig = {
   providers: [
     // Creates the Vault runtime (state container + lifecycle)
     provideVault({
+      /**
+       * Controls the verbosity of internal logging.
+       * Levels: `'debug' | 'info' | 'warn' | 'error' | 'off'`.
+       * Set to `'debug'` during development to trace pipeline activity.
+       */
       logLevel: 'off',
+
+      /**
+       * Enables development-mode diagnostics.
+       * When `true`, the SDuX Debugger panel and Chrome Extension
+       * receive real-time pipeline trace events.
+       */
       devMode: true
     }),
 
