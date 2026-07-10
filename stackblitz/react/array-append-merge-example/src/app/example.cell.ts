@@ -1,5 +1,9 @@
 import { withArrayAppendMergeBehavior } from '@sdux-vault/addons';
+<<<<<<< HEAD
 import { FeatureCell, Vault } from '@sdux-vault/core';
+=======
+import { FeatureCell, Vault } from '@sdux-vault/react';
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -40,7 +44,11 @@ Vault({
  * `mergeState()` call concatenates the incoming array with the existing state,
  * growing the list without discarding previous entries.
  */
+<<<<<<< HEAD
 const exampleCell = FeatureCell<Example[]>(
+=======
+export const exampleCell = FeatureCell<Example[]>(
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   // FeatureCell descriptor (identity + initial state)
   {
     // Unique state key used by the Vault
@@ -68,6 +76,7 @@ exampleCell.initialize();
  * Read-only synchronous state snapshot exposed to React components.
  * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
  */
+<<<<<<< HEAD
 export const exampleState = exampleCell.state;
 
 /**
@@ -76,6 +85,8 @@ export const exampleState = exampleCell.state;
  */
 export const exampleState$ = exampleCell.state$;
 
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 /**
  * Appends `input` to the existing FeatureCell state array using the
  * configured `withArrayAppendMergeBehavior`.

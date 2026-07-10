@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { FeatureCell, Vault } from '@sdux-vault/core';
+=======
+import { FeatureCell, Vault } from '@sdux-vault/react';
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -39,13 +43,18 @@ Vault({
  * `replaceState` through the full pipeline, seeding state before any consumer
  * reads it. Explicit `replaceState()` calls always override it.
  */
+<<<<<<< HEAD
 const exampleCell = FeatureCell<Example[]>({
+=======
+export const exampleCell = FeatureCell<Example[]>({
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   key: 'example-feature-cell-key',
   initialState: [{ id: 66, name: 'Darth', lastName: 'Vader' }]
 });
 
 // Initialize the pipeline
 exampleCell.initialize();
+<<<<<<< HEAD
 
 /**
  * Read-only synchronous state snapshot exposed to React components.
@@ -85,3 +94,5 @@ export function replaceExamples(input: Example[]): void {
 export function resetExamples(): void {
   exampleCell.reset();
 }
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))

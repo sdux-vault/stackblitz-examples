@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/react';
 
 export interface Example {
   id: number;
@@ -26,7 +26,7 @@ Vault({
 });
 
 // Register the FeatureCell at module scope
-const exampleCell = FeatureCell<Example[]>({
+export const exampleCell = FeatureCell<Example[]>({
   key: 'example-feature-cell-key',
   initialState: []
 });
@@ -50,10 +50,6 @@ exampleCell
   ])
   .initialize();
 
-// Expose read-only state access
-export const exampleState = exampleCell.state;
-export const exampleState$ = exampleCell.state$;
-
 /** Replaces the entire FeatureCell state with the provided input. */
 export function replaceExamples(input: Example[]): void {
   exampleCell.replaceState({
@@ -69,17 +65,23 @@ export function resetExamples(): void {
 }
 
 /** Toggles the loading flag on the current state. */
-export function toggleLoading(loading: boolean): void {
+export function toggleLoading(
+  loading: boolean,
+  value: Example[] | undefined
+): void {
   exampleCell.replaceState({
     loading,
-    value: exampleState.value
+    value
   });
 }
 
 /** Toggles the error state between an Error instance and null. */
-export function toggleError(error: Error | null): void {
+export function toggleError(
+  error: Error | null,
+  value: Example[] | undefined
+): void {
   exampleCell.replaceState({
     error,
-    value: exampleState.value
+    value
   });
 }

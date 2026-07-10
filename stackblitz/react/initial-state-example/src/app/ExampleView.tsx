@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import {
   Example,
@@ -6,6 +7,10 @@ import {
   replaceExamples,
   resetExamples
 } from './example.cell';
+=======
+import { useState } from 'react';
+import { Example, exampleCell } from './example.cell';
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 import './ExampleView.css';
 
 const sample: Example[] = [
@@ -16,15 +21,20 @@ const sample: Example[] = [
 
 /** Renders the FeatureCell initial state example. */
 export function ExampleView() {
+<<<<<<< HEAD
   const [snapshot, setSnapshot] = useState({
     value: exampleState.value,
     hasValue: exampleState.hasValue
   });
+=======
+  const snapshot = exampleCell.useSyncExternalStore();
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   const [activeStateHint, setActiveStateHint] = useState(
     'initialState configured at registration time.'
   );
   const [displayActiveStateHint, setDisplayActiveStateHint] = useState(true);
 
+<<<<<<< HEAD
   useEffect(() => {
     const sub = exampleState$.subscribe((emit) => {
       setSnapshot({
@@ -35,16 +45,30 @@ export function ExampleView() {
     return () => sub.unsubscribe();
   }, []);
 
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   /** Loads sample data into the FeatureCell. */
   function loadSample() {
     setDisplayActiveStateHint(false);
     setActiveStateHint('State updated with sample data.');
+<<<<<<< HEAD
     replaceExamples(sample);
+=======
+    exampleCell.replaceState({
+      loading: false,
+      value: sample,
+      error: null
+    });
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   }
 
   /** Clears the FeatureCell state. Does NOT restore initialState. */
   function handleResetState() {
+<<<<<<< HEAD
     resetExamples();
+=======
+    exampleCell.reset();
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
   }
 
   return (

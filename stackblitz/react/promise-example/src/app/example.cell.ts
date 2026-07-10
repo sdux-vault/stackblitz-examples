@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/react';
 
 export interface Example {
   id: number;
@@ -24,7 +24,7 @@ Vault({
 });
 
 // Register the FeatureCell at module scope
-const exampleCell = FeatureCell<Example[]>({
+export const exampleCell = FeatureCell<Example[]>({
   key: 'example-feature-cell-key',
   initialState: []
 });
@@ -33,9 +33,6 @@ const exampleCell = FeatureCell<Example[]>({
 exampleCell.initialize();
 
 // Expose read-only state access
-export const exampleState = exampleCell.state;
-export const exampleState$ = exampleCell.state$;
-
 /**
  * Replaces the entire FeatureCell state using a deferred promise factory.
  *
