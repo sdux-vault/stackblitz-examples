@@ -1,5 +1,5 @@
 import { FeatureCell, Vault } from '@sdux-vault/core';
-import { InsightConfig } from '@sdux-vault/shared';
+import type { InsightConfig } from '@sdux-vault/shared';
 
 export interface Example {
   id: number;
