@@ -1,6 +1,10 @@
 import { withArrayAppendMergeBehavior } from '@sdux-vault/addons';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FeatureCell, Vault } from '@sdux-vault/core';
+=======
+import { FeatureCell, Vault } from '@sdux-vault/react';
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 import { FeatureCell, Vault } from '@sdux-vault/react';
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
@@ -45,7 +49,11 @@ Vault({
  * growing the list without discarding previous entries.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 const exampleCell = FeatureCell<Example[]>(
+=======
+export const exampleCell = FeatureCell<Example[]>(
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 export const exampleCell = FeatureCell<Example[]>(
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
@@ -77,6 +85,7 @@ exampleCell.initialize();
  * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const exampleState = exampleCell.state;
 
 /**
@@ -85,6 +94,8 @@ export const exampleState = exampleCell.state;
  */
 export const exampleState$ = exampleCell.state$;
 
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
 /**

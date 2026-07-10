@@ -11,7 +11,11 @@
   },
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@sdux-vault/core": "latest",
+=======
+    "@sdux-vault/react": "latest",
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
     "@sdux-vault/react": "latest",
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
