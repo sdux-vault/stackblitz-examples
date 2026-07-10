@@ -21,6 +21,7 @@ Closes #
 - [ ] React
 - [ ] Vue
 - [ ] Svelte
+- [ ] Other (specify)
 - [ ] Tooling (`tools/`)
 - [ ] None / N/A
 

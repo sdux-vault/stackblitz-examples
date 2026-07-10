@@ -22,11 +22,14 @@ module.exports = [
   },
 
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['stackblitz/angular/**/*.ts', 'tools/**/*.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: ['./stackblitz/**/tsconfig.json', './tools/**/tsconfig.json'],
+        project: [
+          './stackblitz/angular/**/tsconfig.json',
+          './tools/**/tsconfig.json'
+        ],
         tsconfigRootDir: __dirname,
         sourceType: 'module',
         ecmaVersion: 'latest',
@@ -82,10 +85,51 @@ module.exports = [
   },
 
   {
-    files: ['**/*.tsx'],
+    files: [
+      'stackblitz/react/**/*.ts',
+      'stackblitz/react/**/*.tsx',
+      'tools/react/**/*.tsx',
+      'stackblitz/vue/**/*.ts',
+      'stackblitz/svelte/**/*.ts',
+      'stackblitz/bun/**/*.ts',
+      'stackblitz/nodejs/**/*.ts'
+    ],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true }
+      }
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      prettier: eslintPluginPrettier,
+      jsdoc
+    },
     rules: {
-      '@angular-eslint/component-selector': 'off',
-      '@angular-eslint/directive-selector': 'off'
+      ...tseslint.configs.recommended.rules,
+      'no-console': 0,
+      'prettier/prettier': 'error',
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          require: {
+            ClassDeclaration: true,
+            FunctionDeclaration: true,
+            MethodDefinition: true
+          },
+          checkConstructors: true
+        }
+      ],
+      'jsdoc/require-description': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_'
+        }
+      ]
     }
   }
 ];

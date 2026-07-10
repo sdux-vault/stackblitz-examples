@@ -1,0 +1,104 @@
+<div class="example-container">
+  <div class="header">
+    <div class="title">Angular - SDuX Vault Array Append Merge Example</div>
+    <div class="subtitle">
+      This example demonstrates mergeState with the
+      withArrayAppendMergeBehavior. Each append concatenates the incoming array
+      with the existing state, growing the list without discarding previous
+      entries.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="label">FeatureCell Flow</div>
+    <div class="flow-hint">Input → Output</div>
+  </div>
+
+  <div class="section column">
+    <div class="state-container">
+      <div class="label">Input State</div>
+      <div class="hint">Raw data before processing</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.component.ts
+      </div>
+      <textarea class="data-textarea">{{ sample | json }}</textarea>
+    </div>
+
+    <div class="state-container data-row">
+      <div class="label">FeatureCell State</div>
+      <div class="hint">Final state</div>
+      <div class="hint file">
+        <span class="emphasis">File:</span> app/example.service.ts
+      </div>
+      @if (state.hasValue()) {
+        <textarea class="data-textarea" readonly
+          >{{ state.value() | json }}
+        </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> {{ activeStateHint() }}
+        </div>
+        <div class="hint file">
+          @if (displayActiveStateHint()) {
+            <span class="emphasis">File:</span> app/app.config.ts
+          } @else {
+            &nbsp;
+          }
+        </div>
+      } @else {
+        <textarea class="data-textarea" readonly> </textarea>
+        <div class="hint state">
+          <span class="emphasis">State:</span> cleared - pipeline has no active
+          value for state.
+        </div>
+        <div class="hint file">
+          <span class="emphasis">File:</span> app/app.config.ts &nbsp;
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="actions">
+      <button class="sdux-button primary" (click)="loadSample()">
+        Append Sample Data
+      </button>
+
+      <div class="secondary-actions">
+        <button class="sdux-button" (click)="resetState()">Reset State</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section learn-more">
+    <div class="label">Learn More</div>
+    <div class="learn-more-links">
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state"
+        target="_blank"
+        rel="noopener noreferrer"
+        >State</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state/updating"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Updating State</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/behaviors/merge"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Merging State</a
+      >
+      <span class="separator">·</span>
+      <a
+        href="https://www.sdux-vault.com/docs/pipeline/apis/provide-feature-cell"
+        target="_blank"
+        rel="noopener noreferrer"
+        >FeatureCell</a
+      >
+    </div>
+  </div>
+</div>

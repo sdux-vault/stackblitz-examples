@@ -1,0 +1,24 @@
+{
+  "name": "svelte-array-append-merge-example",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@sdux-vault/addons": "latest",
+    "@sdux-vault/core": "latest",
+    "rxjs": "~7.8.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "svelte": "^5.28.2",
+    "svelte-check": "^4.2.1",
+    "typescript": "~5.9.2",
+    "vite": "^6.3.3"
+  }
+}

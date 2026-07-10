@@ -18,6 +18,7 @@ Which area does this feature relate to? (select one or more)
 - [ ] React examples
 - [ ] Vue examples
 - [ ] Svelte examples
+- [ ] Other examples (specify)
 - [ ] Scaffolding tools (`tools/`)
 - [ ] Build / configuration
 - [ ] Other (describe below)

@@ -1,0 +1,18 @@
+{
+  "name": "node-replace-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@sdux-vault/core": "latest",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "^4.19.4",
+    "typescript": "~5.9.2"
+  }
+}
