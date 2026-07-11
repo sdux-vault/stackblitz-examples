@@ -1,8 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   initializeCell,
   replaceExamples,
   resetExamples
@@ -42,10 +41,7 @@ const samples: Example[][] = [
  * updates and lifecycle orchestration to the FeatureCell module.
  */
 export function ExampleView() {
-  const [snapshot, setSnapshot] = useState({
-    value: exampleState.value,
-    hasValue: exampleState.hasValue
-  });
+  const snapshot = exampleCell.useSyncExternalStore();
   const [activeSample, setActiveSample] = useState<Example[]>(samples[0]);
   const [activeStateHint, setActiveStateHint] = useState(
     'Initial value is [] (empty array)'
@@ -61,14 +57,7 @@ export function ExampleView() {
    * snapshot that is committed synchronously via commitState.
    */
   useEffect(() => {
-    const sub = exampleState$.subscribe((emit) => {
-      setSnapshot({
-        value: emit.snapshot.value,
-        hasValue: emit.snapshot.hasValue
-      });
-    });
     initializeCell();
-    return () => sub.unsubscribe();
   }, []);
 
   /**

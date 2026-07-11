@@ -1,5 +1,5 @@
 import { withDelayController } from '@sdux-vault/addons';
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/react';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -39,7 +39,7 @@ Vault({
 });
 
 // Register the FeatureCell at module scope
-const exampleCell = FeatureCell<Example[]>(
+export const exampleCell = FeatureCell<Example[]>(
   // FeatureCell descriptor (identity + initial state)
   {
     // Unique state key used by the Vault
@@ -76,10 +76,6 @@ const exampleCell = FeatureCell<Example[]>(
  */
 exampleCell.withDelay?.({ millisecondDelay: 3_000 }).initialize();
 
-// Expose read-only state access
-export const exampleState = exampleCell.state;
-export const exampleState$ = exampleCell.state$;
-
 /** Replaces the entire FeatureCell state with the provided input. */
 export function replaceExamples(input: Example[]): void {
   exampleCell.replaceState({
@@ -95,17 +91,23 @@ export function resetExamples(): void {
 }
 
 /** Toggles the loading flag on the current state. */
-export function toggleLoading(loading: boolean): void {
+export function toggleLoading(
+  loading: boolean,
+  value: Example[] | undefined
+): void {
   exampleCell.replaceState({
     loading,
-    value: exampleState.value
+    value
   });
 }
 
 /** Toggles the error state between an Error instance and null. */
-export function toggleError(error: Error | null): void {
+export function toggleError(
+  error: Error | null,
+  value: Example[] | undefined
+): void {
   exampleCell.replaceState({
     error,
-    value: exampleState.value
+    value
   });
 }

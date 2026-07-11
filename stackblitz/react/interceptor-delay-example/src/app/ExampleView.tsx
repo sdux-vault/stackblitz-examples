@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ElapsedTimer } from './elapsed-timer';
 import {
   Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples,
   toggleError,
@@ -25,12 +24,7 @@ const sample: Example[] = [
  * the pipeline. A real-time elapsed timer shows the delay window.
  */
 export function ExampleView() {
-  const [snapshot, setSnapshot] = useState({
-    value: exampleState.value,
-    isLoading: exampleState.isLoading,
-    error: exampleState.error,
-    hasValue: exampleState.hasValue
-  });
+  const snapshot = exampleCell.useSyncExternalStore();
   const [activeStateHint, setActiveStateHint] = useState(
     'Initial value is [] (empty array)'
   );
@@ -47,18 +41,7 @@ export function ExampleView() {
   }
 
   useEffect(() => {
-    const sub = exampleState$.subscribe((emit) => {
-      setSnapshot({
-        value: emit.snapshot.value,
-        isLoading: emit.snapshot.isLoading,
-        error: emit.snapshot.error,
-        hasValue: emit.snapshot.hasValue
-      });
-    });
-    return () => {
-      sub.unsubscribe();
-      timerRef.current?.destroy();
-    };
+    return () => timerRef.current?.destroy();
   }, []);
 
   const hasError = snapshot.error !== null;
@@ -89,13 +72,13 @@ export function ExampleView() {
   function handleToggleLoading() {
     const next = !isLoading;
     setIsLoading(next);
-    toggleLoading(next);
+    toggleLoading(next, snapshot.value);
   }
 
   /** Toggles the error state between an Error instance and null. */
   function handleToggleError() {
     const error = hasError ? null : new Error('Example error message');
-    toggleError(error);
+    toggleError(error, snapshot.value);
   }
 
   return (

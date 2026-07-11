@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples,
   toggleError,
@@ -18,29 +17,12 @@ const sample: Example[] = [
 
 /** Renders the FeatureCell state example with filter and reducer pipeline visualization. */
 export function ExampleView() {
-  const [snapshot, setSnapshot] = useState({
-    value: exampleState.value,
-    isLoading: exampleState.isLoading,
-    error: exampleState.error,
-    hasValue: exampleState.hasValue
-  });
+  const snapshot = exampleCell.useSyncExternalStore();
   const [activeStateHint, setActiveStateHint] = useState(
     'Initial value is [] (empty array)'
   );
   const [displayActiveStateHint, setDisplayActiveStateHint] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const sub = exampleState$.subscribe((emit) => {
-      setSnapshot({
-        value: emit.snapshot.value,
-        isLoading: emit.snapshot.isLoading,
-        error: emit.snapshot.error,
-        hasValue: emit.snapshot.hasValue
-      });
-    });
-    return () => sub.unsubscribe();
-  }, []);
 
   const hasError = snapshot.error !== null;
 
@@ -62,13 +44,13 @@ export function ExampleView() {
   function handleToggleLoading() {
     const next = !isLoading;
     setIsLoading(next);
-    toggleLoading(next);
+    toggleLoading(next, snapshot.value);
   }
 
   /** Toggles the error state between an Error instance and null. */
   function handleToggleError() {
     const error = hasError ? null : new Error('Example error message');
-    toggleError(error);
+    toggleError(error, snapshot.value);
   }
 
   return (
