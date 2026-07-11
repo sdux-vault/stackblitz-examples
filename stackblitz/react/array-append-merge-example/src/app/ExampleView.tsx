@@ -1,14 +1,20 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import {
   Example,
   exampleState,
   exampleState$,
 =======
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 import { useState } from 'react';
 import {
   Example,
   exampleCell,
+<<<<<<< HEAD
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
+=======
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
   mergeExamples,
   resetExamples
@@ -33,10 +39,14 @@ const sample: Example[] = [
  */
 export function ExampleView() {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const [snapshot, setSnapshot] = useState({
     value: exampleState.value,
     hasValue: exampleState.hasValue
   });
+=======
+  const snapshot = exampleCell.useSyncExternalStore();
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
   const snapshot = exampleCell.useSyncExternalStore();
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
@@ -45,6 +55,7 @@ export function ExampleView() {
   );
   const [displayActiveStateHint, setDisplayActiveStateHint] = useState(true);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   useEffect(() => {
     const sub = exampleState$.subscribe((emit) => {
@@ -56,6 +67,8 @@ export function ExampleView() {
     return () => sub.unsubscribe();
   }, []);
 
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
   /**

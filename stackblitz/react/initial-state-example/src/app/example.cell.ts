@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FeatureCell, Vault } from '@sdux-vault/core';
+=======
+import { FeatureCell, Vault } from '@sdux-vault/react';
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 import { FeatureCell, Vault } from '@sdux-vault/react';
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
@@ -44,7 +48,11 @@ Vault({
  * reads it. Explicit `replaceState()` calls always override it.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 const exampleCell = FeatureCell<Example[]>({
+=======
+export const exampleCell = FeatureCell<Example[]>({
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 export const exampleCell = FeatureCell<Example[]>({
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
@@ -54,6 +62,7 @@ export const exampleCell = FeatureCell<Example[]>({
 
 // Initialize the pipeline
 exampleCell.initialize();
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 /**
@@ -94,5 +103,7 @@ export function replaceExamples(input: Example[]): void {
 export function resetExamples(): void {
   exampleCell.reset();
 }
+=======
+>>>>>>> c2a02ae (Added a new initial-state example (#13))
 =======
 >>>>>>> c2a02ae (Added a new initial-state example (#13))
