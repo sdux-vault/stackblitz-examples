@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { FeatureCell, Vault } from '@sdux-vault/core';
-=======
 import { FeatureCell, Vault } from '@sdux-vault/react';
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-import { FeatureCell, Vault } from '@sdux-vault/react';
->>>>>>> c2a02ae (Added a new initial-state example (#13))
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -47,63 +39,10 @@ Vault({
  * `replaceState` through the full pipeline, seeding state before any consumer
  * reads it. Explicit `replaceState()` calls always override it.
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-const exampleCell = FeatureCell<Example[]>({
-=======
 export const exampleCell = FeatureCell<Example[]>({
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-export const exampleCell = FeatureCell<Example[]>({
->>>>>>> c2a02ae (Added a new initial-state example (#13))
   key: 'example-feature-cell-key',
   initialState: [{ id: 66, name: 'Darth', lastName: 'Vader' }]
 });
 
 // Initialize the pipeline
 exampleCell.initialize();
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-/**
- * Read-only synchronous state snapshot exposed to React components.
- * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
- */
-export const exampleState = exampleCell.state;
-
-/**
- * Observable stream of committed state snapshots.
- * Emits each time the FeatureCell pipeline commits a new value.
- */
-export const exampleState$ = exampleCell.state$;
-
-/**
- * Replaces the entire FeatureCell state with the provided input.
- *
- * @param input - The new collection of Example records to commit.
- * @returns void
- */
-export function replaceExamples(input: Example[]): void {
-  exampleCell.replaceState({
-    loading: false,
-    value: input,
-    error: null
-  });
-}
-
-/**
- * Clears the FeatureCell state to `undefined`, resetting the loading and
- * error fields without destroying the FeatureCell or its pipeline.
- *
- * This does NOT restore the `initialState` configured at registration.
- * To return to a specific value, call `replaceExamples()` with the desired data.
- *
- * @returns void
- */
-export function resetExamples(): void {
-  exampleCell.reset();
-}
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
