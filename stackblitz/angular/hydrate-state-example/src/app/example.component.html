@@ -1,23 +1,24 @@
 <div class="example-container">
   <div class="header">
-    <div class="title">Angular - SDuX Vault Initial State Example</div>
+    <div class="title">Angular - SDuX Vault Hydrate State Example</div>
     <div class="subtitle">
-      This example demonstrates initialState — a FeatureCell can be seeded with
-      pre-populated state at registration time. The initialState is processed
-      through the full pipeline on initialize() and is the lowest-precedence
-      initialization source.
+      This example demonstrates hydrate() — a deferred factory supplies the
+      authoritative initial FeatureCell value when initialize() runs. The
+      resolved value then travels through the normal state pipeline.
     </div>
   </div>
 
   <div class="section">
     <div class="label">FeatureCell Flow</div>
-    <div class="flow-hint">Input → Output</div>
+    <div class="flow-hint">
+      Deferred factory → initialize() → pipeline → reactive state
+    </div>
   </div>
 
   <div class="section column">
     <div class="state-container">
-      <div class="label">Input State</div>
-      <div class="hint">Raw data before processing</div>
+      <div class="label">Next State</div>
+      <div class="hint">Sample data for a later replaceState() update</div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/example.component.ts
       </div>
@@ -25,8 +26,8 @@
     </div>
 
     <div class="state-container data-row">
-      <div class="label">FeatureCell State</div>
-      <div class="hint">Final state</div>
+      <div class="label">Hydrated FeatureCell State</div>
+      <div class="hint">Factory result after initialization</div>
       <div class="hint file">
         <span class="emphasis">File:</span> app/example.service.ts
       </div>
@@ -39,7 +40,7 @@
         </div>
         <div class="hint file">
           @if (displayActiveStateHint()) {
-            <span class="emphasis">File:</span> app/app.config.ts
+            <span class="emphasis">File:</span> app/example.service.ts
           } @else {
             &nbsp;
           }
@@ -51,7 +52,7 @@
           value for state.
         </div>
         <div class="hint file">
-          <span class="emphasis">File:</span> app/app.config.ts &nbsp;
+          <span class="emphasis">File:</span> app/example.service.ts &nbsp;
         </div>
       }
     </div>
@@ -60,7 +61,7 @@
   <div class="section">
     <div class="actions">
       <button class="sdux-button primary" (click)="loadSample()">
-        Load Sample State
+        Replace Hydrated State
       </button>
 
       <div class="secondary-actions">
@@ -73,24 +74,17 @@
     <div class="label">Learn More</div>
     <div class="learn-more-links">
       <a
-        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state"
+        href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell-api/hydrate-method"
         target="_blank"
         rel="noopener noreferrer"
-        >State</a
+        >hydrate()</a
       >
       <span class="separator">·</span>
       <a
-        href="https://www.sdux-vault.com/docs/pipeline/behaviors/state/updating"
+        href="https://www.sdux-vault.com/docs/pipeline/apis/feature-cell-api/initialize-method"
         target="_blank"
         rel="noopener noreferrer"
-        >Updating State</a
-      >
-      <span class="separator">·</span>
-      <a
-        href="https://www.sdux-vault.com/docs/pipeline/behaviors/merge"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Merging State</a
+        >initialize()</a
       >
       <span class="separator">·</span>
       <a
