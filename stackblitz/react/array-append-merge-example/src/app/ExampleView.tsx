@@ -1,21 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import {
-  Example,
-  exampleState,
-  exampleState$,
-=======
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
 import { useState } from 'react';
 import {
   Example,
   exampleCell,
-<<<<<<< HEAD
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
   mergeExamples,
   resetExamples
 } from './example.cell';
@@ -38,39 +24,12 @@ const sample: Example[] = [
  * to the cell module to preserve the service boundary pattern.
  */
 export function ExampleView() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const [snapshot, setSnapshot] = useState({
-    value: exampleState.value,
-    hasValue: exampleState.hasValue
-  });
-=======
   const snapshot = exampleCell.useSyncExternalStore();
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-  const snapshot = exampleCell.useSyncExternalStore();
->>>>>>> c2a02ae (Added a new initial-state example (#13))
   const [activeStateHint, setActiveStateHint] = useState(
     'initialState seeded on initialize() — click Append to grow the list.'
   );
   const [displayActiveStateHint, setDisplayActiveStateHint] = useState(true);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  useEffect(() => {
-    const sub = exampleState$.subscribe((emit) => {
-      setSnapshot({
-        value: emit.snapshot.value,
-        hasValue: emit.snapshot.hasValue
-      });
-    });
-    return () => sub.unsubscribe();
-  }, []);
-
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
   /**
    * Delegates an array append merge to the FeatureCell cell module.
    *

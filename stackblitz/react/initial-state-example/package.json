@@ -10,15 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "@sdux-vault/core": "latest",
-=======
     "@sdux-vault/react": "latest",
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-    "@sdux-vault/react": "latest",
->>>>>>> c2a02ae (Added a new initial-state example (#13))
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "rxjs": "~7.8.0"

@@ -1,13 +1,5 @@
 import { withArrayAppendMergeBehavior } from '@sdux-vault/addons';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { FeatureCell, Vault } from '@sdux-vault/core';
-=======
 import { FeatureCell, Vault } from '@sdux-vault/react';
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-import { FeatureCell, Vault } from '@sdux-vault/react';
->>>>>>> c2a02ae (Added a new initial-state example (#13))
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -48,15 +40,7 @@ Vault({
  * `mergeState()` call concatenates the incoming array with the existing state,
  * growing the list without discarding previous entries.
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-const exampleCell = FeatureCell<Example[]>(
-=======
 export const exampleCell = FeatureCell<Example[]>(
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
-export const exampleCell = FeatureCell<Example[]>(
->>>>>>> c2a02ae (Added a new initial-state example (#13))
   // FeatureCell descriptor (identity + initial state)
   {
     // Unique state key used by the Vault
@@ -84,20 +68,6 @@ exampleCell.initialize();
  * Read-only synchronous state snapshot exposed to React components.
  * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-export const exampleState = exampleCell.state;
-
-/**
- * Observable stream of committed state snapshots.
- * Emits each time the FeatureCell pipeline commits a new value.
- */
-export const exampleState$ = exampleCell.state$;
-
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
-=======
->>>>>>> c2a02ae (Added a new initial-state example (#13))
 /**
  * Appends `input` to the existing FeatureCell state array using the
  * configured `withArrayAppendMergeBehavior`.
