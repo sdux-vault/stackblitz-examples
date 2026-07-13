@@ -78,6 +78,7 @@
     "@sdux-vault/addons": "latest",
     "@sdux-vault/angular": "latest",
     "@sdux-vault/core": "latest",
+    "@sdux-vault/react": "latest",
     "@types/node": "^26.1.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
