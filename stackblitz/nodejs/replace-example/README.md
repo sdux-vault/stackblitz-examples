@@ -1,7 +1,8 @@
-# SDuX Vault Node.js Replace Example
+# SDuX Vault TypeScript Replace Example
 
-A script demonstrating atomic full-state replacement with SDuX Vault running in
-Node.js with TypeScript.
+A script demonstrating atomic full-state replacement with SDuX Vault in plain
+TypeScript. It uses only runtime-neutral APIs, so the same file runs in Node,
+Bun, Deno, or the browser — this folder runs it with Node via `tsx`.
 
 ## What This Example Shows
 
@@ -12,13 +13,17 @@ Node.js with TypeScript.
   `replaceState()` so the script awaits the committed snapshot — not the raw input
 - **Class-Based Runner**: All methods and the FeatureCell live on a single class
   so every `await` has a proper `async` context — no top-level await, no
-  frameworks, no HTTP server, just TypeScript in Node
+  frameworks, no HTTP server, just plain TypeScript
 
 ## This Is Not Production Code
 
 This example is intentionally minimal. Its job is to show that SDuX Vault works
-in plain Node.js TypeScript — nothing more. The patterns here are a starting
+in plain TypeScript — nothing more. The patterns here are a starting
 point. Take what applies to your use case and build from there.
+
+> The runner guards `process.exit(0)` with a `typeof process` check so the
+> script exits cleanly under Node (an open RxJS subscription can otherwise keep
+> the event loop alive) while remaining a no-op in non-Node runtimes.
 
 ## Prerequisites
 

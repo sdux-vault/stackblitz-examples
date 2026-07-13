@@ -346,4 +346,13 @@ class PromiseExample {
   }
 }
 
-new PromiseExample().run().then(() => process.exit(0));
+// The example logic uses only runtime-neutral APIs, so this same file runs in
+// Node, Bun, Deno, or the browser. `process` only exists in Node-like runtimes,
+// so guard the call: in Node it forces a clean exit (an open RxJS subscription
+// can otherwise keep the event loop alive and hang the script); everywhere else
+// this is a harmless no-op.
+new PromiseExample().run().then(() => {
+  if (typeof process !== 'undefined' && process.exit) {
+    process.exit(0);
+  }
+});

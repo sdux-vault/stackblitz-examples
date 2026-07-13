@@ -3,7 +3,11 @@
     "strict": true,
     "skipLibCheck": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@sdux-vault/*": ["node_modules/@sdux-vault/*"]
+    }
   },
   "include": ["stackblitz/**/*.ts"],
   "exclude": ["stackblitz/svelte/**/vite.config.ts", "stackblitz/vue/**"]
