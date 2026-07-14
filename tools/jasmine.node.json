@@ -1,6 +1,9 @@
 {
   "spec_dir": "tools",
-  "spec_files": ["shared/**/tests/**/*.spec.mjs"],
+  "spec_files": [
+    "shared/**/tests/**/*.spec.mjs",
+    "clean-up/**/tests/**/*.spec.mjs"
+  ],
   "helpers": [],
   "random": false
 }
