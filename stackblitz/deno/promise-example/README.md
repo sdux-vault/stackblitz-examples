@@ -93,7 +93,7 @@ class PromiseExample {
   async run(): Promise<void> {
     // setTimeout(0) lets the microtask queue flush so initialState is committed
     await new Promise((resolve) => setTimeout(resolve, 0));
-    console.log(`${this.#getUsersValue().users.length} users`);
+    console.info(`${this.#getUsersValue().users.length} users`);
 
     // Placeholder committed before async work begins
     await this.#commitUsersState({

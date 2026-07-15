@@ -187,5 +187,5 @@ const _server = Bun.serve({
   }
 });
 
-console.log(`✅ Server running at http://localhost:${PORT}`);
-console.log(`📝 Try: curl http://localhost:${PORT}`);
+console.info(`✅ Server running at http://localhost:${PORT}`);
+console.info(`📝 Try: curl http://localhost:${PORT}`);

@@ -93,7 +93,7 @@ class ArrayAppendExample {
   async run(): Promise<void> {
     // setTimeout(0) lets the microtask queue flush so initialState is committed
     await new Promise((resolve) => setTimeout(resolve, 0));
-    console.log(this.#cell.state.value?.map(label).join(', '));
+    console.info(this.#cell.state.value?.map(label).join(', '));
     // [Darth Vader]
 
     // Each mergeState() concatenates — it does not replace

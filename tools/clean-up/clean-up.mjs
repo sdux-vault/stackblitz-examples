@@ -24,9 +24,9 @@ const cleanUp = new CleanUp({ stackblitzDir });
 const result = cleanUp.run();
 
 if (result.removedCount === 0) {
-  console.log('\nClean-up finished. No artifacts found.');
+  console.info('\nClean-up finished. No artifacts found.');
 } else {
-  console.log(
+  console.info(
     `\nClean-up finished. Removed ${result.removedCount} artifact(s).`
   );
 }

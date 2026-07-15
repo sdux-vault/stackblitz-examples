@@ -24,6 +24,7 @@ export class CleanUp {
    */
   static #CLEANUP_ENTRIES = [
     { name: 'node_modules', type: 'node_modules' },
+    { name: 'dist', type: 'dist' },
     { name: 'package-lock.json', type: 'package-lock' },
     { name: '.angular', type: 'angular-cache' }
   ];
