@@ -1,6 +1,6 @@
 {
   "name": "svelte-array-append-merge-example",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@sdux-vault/addons": "latest",
-    "@sdux-vault/core": "latest",
+    "@sdux-vault/svelte": "latest",
     "rxjs": "~7.8.0"
   },
   "devDependencies": {

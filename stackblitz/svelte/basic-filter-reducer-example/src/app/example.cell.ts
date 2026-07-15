@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/svelte';
 
 export interface Example {
   id: number;
@@ -26,7 +26,7 @@ Vault({
 });
 
 // Register the FeatureCell at module scope
-const exampleCell = FeatureCell<Example[]>({
+export const exampleCell = FeatureCell<Example[]>({
   key: 'example-feature-cell-key',
   initialState: []
 });
@@ -50,10 +50,6 @@ exampleCell
   ])
   .initialize();
 
-// Expose read-only state access
-export const exampleState = exampleCell.state;
-export const exampleState$ = exampleCell.state$;
-
 /** Replaces the entire FeatureCell state with the provided input. */
 export function replaceExamples(input: Example[]): void {
   exampleCell.replaceState({
@@ -72,7 +68,7 @@ export function resetExamples(): void {
 export function toggleLoading(loading: boolean): void {
   exampleCell.replaceState({
     loading,
-    value: exampleState.value
+    value: exampleCell.state.value
   });
 }
 
@@ -80,6 +76,6 @@ export function toggleLoading(loading: boolean): void {
 export function toggleError(error: Error | null): void {
   exampleCell.replaceState({
     error,
-    value: exampleState.value
+    value: exampleCell.state.value
   });
 }

@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/svelte';
 
 /**
  * Defines one character record stored in the example's array state.
@@ -36,10 +36,10 @@ Vault({
  * Owns the FeatureCell that demonstrates deferred initialization with `hydrate()`.
  * The descriptor leaves its fallback undefined so the factory registered before
  * `initialize()` supplies the authoritative initial value. Svelte components read
- * the exposed snapshot and stream while mutation functions in this module keep
- * pipeline access in one place.
+ * the reactive State getter while mutation functions in this module keep pipeline
+ * access in one place.
  */
-const exampleCell = FeatureCell<Example[] | undefined>({
+export const exampleCell = FeatureCell<Example[] | undefined>({
   key: 'example-feature-cell-key',
   initialState: undefined
 });
@@ -50,18 +50,6 @@ exampleCell
     Promise.resolve([{ id: 1, name: 'Darth', lastName: 'Sidious' }])
   )
   .initialize();
-
-/**
- * Exposes the current read-only state used to seed the component's `$state` snapshot.
- * Its `value` and `hasValue` fields reflect hydration and later pipeline updates.
- */
-export const exampleState = exampleCell.state;
-
-/**
- * Emits committed snapshots so the Svelte component can keep its rune state reactive.
- * Hydration and later replacements flow through the same subscription surface.
- */
-export const exampleState$ = exampleCell.state$;
 
 /**
  * Replaces the entire hydrated state with a caller-provided character array.

@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
   import {
     type Example,
-    exampleState,
-    exampleState$,
+    exampleCell,
     replaceExamples,
     resetExamples
   } from './example.cell';
@@ -29,25 +27,11 @@
     ]
   ];
 
-  let snapshot = $state({
-    value: exampleState.value,
-    hasValue: exampleState.hasValue
-  });
+  let snapshot = $derived(exampleCell.state);
 
   let activeSample: Example[] = $state(samples[0]);
   let activeStateHint = $state('Initial value is [] (empty array)');
   let displayActiveStateHint = $state(true);
-
-  const sub = exampleState$.subscribe((emit) => {
-    snapshot = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-
-  onDestroy(() => {
-    sub.unsubscribe();
-  });
 
   /**
    * Loads the active sample into the FeatureCell pipeline.

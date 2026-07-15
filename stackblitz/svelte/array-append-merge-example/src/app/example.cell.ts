@@ -1,5 +1,5 @@
 import { withArrayAppendMergeBehavior } from '@sdux-vault/addons';
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/svelte';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -40,7 +40,7 @@ Vault({
  * `mergeState()` call concatenates the incoming array with the existing state,
  * growing the list without discarding previous entries.
  */
-const exampleCell = FeatureCell<Example[]>(
+export const exampleCell = FeatureCell<Example[]>(
   // FeatureCell descriptor (identity + initial state)
   {
     // Unique state key used by the Vault
@@ -63,18 +63,6 @@ const exampleCell = FeatureCell<Example[]>(
 
 // Initialize the pipeline
 exampleCell.initialize();
-
-/**
- * Read-only synchronous state snapshot exposed to Svelte components.
- * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
- */
-export const exampleState = exampleCell.state;
-
-/**
- * Observable stream of committed state snapshots.
- * Emits each time the FeatureCell pipeline commits a new value.
- */
-export const exampleState$ = exampleCell.state$;
 
 /**
  * Appends `input` to the existing FeatureCell state array using the
