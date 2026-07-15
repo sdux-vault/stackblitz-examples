@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import type { Subscription } from 'rxjs';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import { ElapsedTimer } from './elapsed-timer';
 import {
   type Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples,
   toggleError,
@@ -18,12 +16,7 @@ const sample: Example[] = [
   { id: 9, name: 'Han', lastName: 'Solo' }
 ];
 
-const snapshot = ref({
-  value: exampleState.value,
-  isLoading: exampleState.isLoading,
-  error: exampleState.error as unknown,
-  hasValue: exampleState.hasValue
-});
+const snapshot = exampleCell.useReactiveState();
 
 const activeStateHint = ref('Initial value is [] (empty array)');
 const displayActiveStateHint = ref(true);
@@ -35,21 +28,7 @@ const timer = new ElapsedTimer((ms) => {
   timerDisplay.value = ElapsedTimer.format(ms);
 });
 
-let sub: Subscription;
-
-onMounted(() => {
-  sub = exampleState$.subscribe((emit) => {
-    snapshot.value = {
-      value: emit.snapshot.value,
-      isLoading: emit.snapshot.isLoading,
-      error: emit.snapshot.error,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-});
-
 onUnmounted(() => {
-  sub?.unsubscribe();
   timer.destroy();
 });
 
@@ -83,7 +62,7 @@ function handleToggleLoading(): void {
 
 /** Toggles the error state between an Error instance and null. */
 function handleToggleError(): void {
-  const hasError = snapshot.value.error !== null;
+  const hasError = snapshot.error !== null;
   const error = hasError ? null : new Error('Example error message');
   toggleError(error);
 }

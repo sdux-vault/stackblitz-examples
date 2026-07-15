@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/vue';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -39,25 +39,13 @@ Vault({
  * `replaceState` through the full pipeline, seeding state before any consumer
  * reads it. Explicit `replaceState()` calls always override it.
  */
-const exampleCell = FeatureCell<Example[]>({
+export const exampleCell = FeatureCell<Example[]>({
   key: 'example-feature-cell-key',
   initialState: [{ id: 66, name: 'Darth', lastName: 'Vader' }]
 });
 
 // Initialize the pipeline
 exampleCell.initialize();
-
-/**
- * Read-only synchronous state snapshot exposed to Vue components.
- * Provides access to `value`, `isLoading`, `error`, and `hasValue`.
- */
-export const exampleState = exampleCell.state;
-
-/**
- * Observable stream of committed state snapshots.
- * Emits each time the FeatureCell pipeline commits a new value.
- */
-export const exampleState$ = exampleCell.state$;
 
 /**
  * Replaces the entire FeatureCell state with the provided input.

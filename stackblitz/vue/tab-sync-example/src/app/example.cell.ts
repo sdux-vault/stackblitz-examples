@@ -1,9 +1,8 @@
 import {
-  FeatureCell,
-  Vault,
   withTabSyncController,
   withTabSyncStateBehavior
 } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/vue';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -52,7 +51,7 @@ Vault({
  * the initial negotiation when a new tab opens, ensuring it receives
  * the latest state from an existing peer.
  */
-const exampleCell = FeatureCell<Example[]>(
+export const exampleCell = FeatureCell<Example[]>(
   {
     key: 'example-feature-cell-key',
     initialState: []
@@ -72,23 +71,6 @@ const exampleCell = FeatureCell<Example[]>(
  * No state updates will be processed before initialize() is called.
  */
 exampleCell.initialize();
-
-/**
- * Read-only state snapshot accessor.
- *
- * Provides access to:
- * - value — current state value
- * - hasValue — whether state contains a value
- */
-export const exampleState = exampleCell.state;
-
-/**
- * Observable stream of state emissions.
- *
- * Each emission includes the full snapshot after pipeline execution.
- * Used by the component to subscribe to reactive state changes.
- */
-export const exampleState$ = exampleCell.state$;
 
 /**
  * Replaces the entire FeatureCell state with the provided input.

@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { Subscription } from 'rxjs';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import {
   type Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples
 } from './example.cell';
@@ -15,28 +13,10 @@ const sample: Example[] = [
   { id: 9, name: 'Han', lastName: 'Solo' }
 ];
 
-const snapshot = ref({
-  value: exampleState.value,
-  hasValue: exampleState.hasValue
-});
+const snapshot = exampleCell.useReactiveState();
 
 const activeStateHint = ref('Initial value is [] (empty array)');
 const displayActiveStateHint = ref(true);
-
-let sub: Subscription;
-
-onMounted(() => {
-  sub = exampleState$.subscribe((emit) => {
-    snapshot.value = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-});
-
-onUnmounted(() => {
-  sub?.unsubscribe();
-});
 
 /** Loads sample data into the FeatureCell via an RxJS Observable. */
 function loadSample(): void {
