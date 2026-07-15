@@ -188,6 +188,7 @@ Before finalizing, verify:
 
 ## Prohibitions
 
+- DO NOT use console.log. Only use console.info to output all messages in the scripts.
 - Do NOT modify the Angular source example
 - Do NOT add features not present in the Angular example
 - Do NOT change pipeline configuration (filters, reducers, interceptors must be identical)
