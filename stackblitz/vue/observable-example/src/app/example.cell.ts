@@ -1,4 +1,4 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
+import { FeatureCell, Vault } from '@sdux-vault/vue';
 import { of } from 'rxjs';
 
 export interface Example {
@@ -25,17 +25,13 @@ Vault({
 });
 
 // Register the FeatureCell at module scope
-const exampleCell = FeatureCell<Example[]>({
+export const exampleCell = FeatureCell<Example[]>({
   key: 'example-feature-cell-key',
   initialState: []
 });
 
 // Initialize the pipeline
 exampleCell.initialize();
-
-// Expose read-only state access
-export const exampleState = exampleCell.state;
-export const exampleState$ = exampleCell.state$;
 
 /**
  * Replaces the entire FeatureCell state using an Observable.

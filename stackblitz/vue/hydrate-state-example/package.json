@@ -1,6 +1,6 @@
 {
   "name": "vue-hydrate-state-example",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@sdux-vault/core": "latest",
+    "@sdux-vault/vue": "latest",
     "rxjs": "~7.8.0",
     "vue": "^3.5.13"
   },

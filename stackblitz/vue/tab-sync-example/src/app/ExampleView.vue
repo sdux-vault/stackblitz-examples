@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { Subscription } from 'rxjs';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import {
   type Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples
 } from './example.cell';
@@ -30,29 +28,11 @@ const samples: Example[][] = [
   ]
 ];
 
-const snapshot = ref({
-  value: exampleState.value,
-  hasValue: exampleState.hasValue
-});
+const snapshot = exampleCell.useReactiveState();
 
 const activeSample = ref<Example[]>(samples[0]);
 const activeStateHint = ref('Initial value is [] (empty array)');
 const displayActiveStateHint = ref(true);
-
-let sub: Subscription;
-
-onMounted(() => {
-  sub = exampleState$.subscribe((emit) => {
-    snapshot.value = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-});
-
-onUnmounted(() => {
-  sub?.unsubscribe();
-});
 
 /**
  * Loads the active sample into the FeatureCell pipeline.

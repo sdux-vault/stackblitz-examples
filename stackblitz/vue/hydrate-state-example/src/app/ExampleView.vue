@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { Subscription } from 'rxjs';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import {
   type Example,
-  exampleState,
-  exampleState$,
+  exampleCell,
   replaceExamples,
   resetExamples
 } from './example.cell';
@@ -16,14 +14,8 @@ const sample: Example[] = [
   { id: 9, name: 'Han', lastName: 'Solo' }
 ];
 
-/**
- * Holds the reactive Vue view of the current FeatureCell snapshot.
- * Stream emissions update these fields after hydration and later mutations.
- */
-const snapshot = ref({
-  value: exampleState.value,
-  hasValue: exampleState.hasValue
-});
+/** Holds the reactive Vue view of the current FeatureCell snapshot. */
+const snapshot = exampleCell.useReactiveState();
 
 /** Describes whether the visible value came from hydration or a later update. */
 const activeStateHint = ref('hydrate() factory resolved during initialize().');
@@ -31,26 +23,10 @@ const activeStateHint = ref('hydrate() factory resolved during initialize().');
 /** Controls whether the template shows the source of the hydrated value. */
 const displayActiveStateHint = ref(true);
 
-/** Holds the active stream subscription for component lifecycle cleanup. */
-let sub: Subscription;
-
-onMounted(() => {
-  sub = exampleState$.subscribe((emit) => {
-    snapshot.value = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-});
-
-onUnmounted(() => {
-  sub?.unsubscribe();
-});
-
 /**
  * Replaces the hydrated value with the sample dataset through the cell module.
- * The button click updates the pipeline, the stream emits, and Vue refreshes
- * the template from the reactive snapshot.
+ * The button click updates the pipeline and Vue refreshes the template from
+ * the reactive snapshot.
  * @returns void
  */
 function loadSample(): void {
