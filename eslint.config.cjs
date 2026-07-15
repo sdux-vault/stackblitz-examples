@@ -92,6 +92,7 @@ module.exports = [
       'stackblitz/vue/**/*.ts',
       'stackblitz/svelte/**/*.ts',
       'stackblitz/bun/**/*.ts',
+      'stackblitz/deno/**/*.ts',
       'stackblitz/nodejs/**/*.ts'
     ],
     languageOptions: {

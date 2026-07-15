@@ -2,7 +2,7 @@
   "name": "@sdux-vault/stackblitz-examples",
   "version": "1.0.1",
   "private": true,
-  "description": "SDuX Vault StackBlitz example projects",
+  "description": "SDuX Vault StackBlitz example projects for browser, framework, Node.js, Bun, and Deno runtimes",
   "author": {
     "name": "SDuX Vault",
     "email": "sduxvault@gmail.com"
