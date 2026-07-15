@@ -82,6 +82,7 @@ describe('CleanUp', () => {
       addDirectory(STACKBLITZ_DIR, ['angular']);
       addDirectory(path.join(STACKBLITZ_DIR, 'angular'), ['demo-1-example']);
       addDirectory(path.join(STACKBLITZ_DIR, 'angular', 'demo-1-example'), [
+        'dist',
         'node_modules',
         'package-lock.json',
         '.angular'
@@ -90,7 +91,12 @@ describe('CleanUp', () => {
       const targets = cleanUp.collectTargets();
       const types = targets.map((t) => t.type).sort();
 
-      expect(types).toEqual(['angular-cache', 'node_modules', 'package-lock']);
+      expect(types).toEqual([
+        'angular-cache',
+        'dist',
+        'node_modules',
+        'package-lock'
+      ]);
     });
 
     it('should only collect artifacts that exist', () => {

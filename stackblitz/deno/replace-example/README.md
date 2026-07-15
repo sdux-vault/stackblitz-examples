@@ -1,8 +1,8 @@
-# SDuX Vault TypeScript Replace Example
+# SDuX Vault Deno Replace Example
 
 A script demonstrating atomic full-state replacement with SDuX Vault in plain
-TypeScript. It uses only runtime-neutral APIs, so the same file runs in Node,
-Bun, Deno, or the browser — this folder runs it with Node via `tsx`.
+TypeScript running directly in Deno. Dependencies use Deno's `npm:` specifiers,
+so no Node.js package manifest, npm installation, or TypeScript runner is needed.
 
 ## What This Example Shows
 
@@ -18,29 +18,26 @@ Bun, Deno, or the browser — this folder runs it with Node via `tsx`.
 ## This Is Not Production Code
 
 This example is intentionally minimal. Its job is to show that SDuX Vault works
-in plain TypeScript — nothing more. The patterns here are a starting
-point. Take what applies to your use case and build from there.
+directly in Deno — nothing more. The patterns here are a starting point. Take
+what applies to your use case and build from there.
 
-> The runner guards `process.exit(0)` with a `typeof process` check so the
-> script exits cleanly under Node (an open RxJS subscription can otherwise keep
-> the event loop alive) while remaining a no-op in non-Node runtimes.
+> The runner calls `Deno.exit(0)` after completion because an open RxJS
+> subscription can otherwise keep the event loop alive.
 
 ## Prerequisites
 
-- Node.js 18 or later
-- npm
+- Deno 2 or later
 
 ## Quick Start
 
 ```bash
-npm install
-npm start
+deno run src/main.ts
 ```
 
 ## Expected Output
 
 ```
-=== SDuX Vault Node.js Replace Example ===
+=== SDuX Vault Deno Replace Example ===
 
 [CELL] Counter cell created
 [STATE] Initial: count=0, label="Counter Example"
@@ -108,9 +105,9 @@ class ReplaceExample {
 }
 ```
 
-## Why Node.js for SDuX Vault?
+## Why Deno for SDuX Vault?
 
 SDuX Vault is a plain TypeScript library with no browser dependencies. The same
 `FeatureCell` API that manages UI state in Angular, React, Vue, or Svelte works
-identically here — no adaptation needed. The conductor queue serializes writes in
-both environments, so the correctness guarantees are the same.
+runs directly in Deno through `npm:@sdux-vault/core`. The conductor queue
+serializes writes, so the correctness guarantees remain the same.

@@ -1,7 +1,7 @@
-import { withArrayAppendMergeBehavior } from '@sdux-vault/addons';
-import { FeatureCell, Vault } from '@sdux-vault/core';
-import { firstValueFrom } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { withArrayAppendMergeBehavior } from 'npm:@sdux-vault/addons';
+import { FeatureCell, Vault } from 'npm:@sdux-vault/core';
+import { firstValueFrom } from 'npm:rxjs';
+import { skip } from 'npm:rxjs/operators';
 
 /**
  * Shape representing a single example entity in the FeatureCell state.
@@ -84,7 +84,7 @@ class ArrayAppendExample {
    * logging so the output always reflects the actual pipeline result.
    */
   async run(): Promise<void> {
-    console.info('=== SDuX Vault Node.js Array Append Example ===\n');
+    console.info('=== SDuX Vault Deno Array Append Example ===\n');
 
     // initialize() queues the initialState commit in the microtask queue.
     // A zero-timeout tick yields to the event loop so the microtask queue
@@ -170,13 +170,8 @@ class ArrayAppendExample {
   }
 }
 
-// The example logic uses only runtime-neutral APIs, so this same file runs in
-// Node, Bun, Deno, or the browser. `process` only exists in Node-like runtimes,
-// so guard the call: in Node it forces a clean exit (an open RxJS subscription
-// can otherwise keep the event loop alive and hang the script); everywhere else
-// this is a harmless no-op.
+// Exit explicitly after the example completes because the open RxJS
+// subscription can otherwise keep the Deno event loop alive.
 new ArrayAppendExample().run().then(() => {
-  if (typeof process !== 'undefined' && process.exit) {
-    process.exit(0);
-  }
+  Deno.exit(0);
 });

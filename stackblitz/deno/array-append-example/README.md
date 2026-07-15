@@ -1,7 +1,8 @@
-# SDuX Vault Vanilla JavaScript Array Append Example
+# SDuX Vault Deno Array Append Example
 
-A script demonstrating array append merge behavior with SDuX Vault running in
-plain Node.js with **no TypeScript** — just JavaScript and `node`.
+A script demonstrating array append merge behavior with SDuX Vault in plain
+TypeScript running directly in Deno. Dependencies use Deno's `npm:` specifiers,
+so no Node.js package manifest, npm installation, or TypeScript runner is needed.
 
 ## What This Example Shows
 
@@ -15,31 +16,30 @@ plain Node.js with **no TypeScript** — just JavaScript and `node`.
   first `initialize()` call produces a non-empty committed snapshot
 - **`reset()`**: Clearing state to `undefined` without destroying the cell or
   its pipeline configuration
-- **No TypeScript Required**: SDuX Vault is a plain JavaScript library at
-  runtime — no compiler, no build step, no type annotations needed
 
 ## This Is Not Production Code
 
 This example is intentionally minimal. Its job is to show that SDuX Vault's
-add-on behaviors work in plain JavaScript — nothing more. Take the pattern,
-wire it to your own data model, and build from there.
+add-on behaviors work directly in Deno — nothing more. Take the pattern, wire
+it to your own data model, and build from there.
+
+> The runner calls `Deno.exit(0)` after completion because an open RxJS
+> subscription can otherwise keep the event loop alive.
 
 ## Prerequisites
 
-- Node.js 18 or later
-- npm
+- Deno 2 or later
 
 ## Quick Start
 
 ```bash
-npm install
-npm start
+deno run src/main.ts
 ```
 
 ## Expected Output
 
 ```
-=== SDuX Vault Vanilla JavaScript Array Append Example ===
+=== SDuX Vault Deno Array Append Example ===
 
 [CELL] Examples cell created with initialState + withArrayAppendMergeBehavior
 [STATE] Initial: [Darth Vader]
@@ -74,9 +74,9 @@ npm start
 5. **Append**: Each `mergeState()` call adds to the existing array rather than
    replacing it. Previous entries are never lost.
 
-```javascript
+```typescript
 class ArrayAppendExample {
-  #cell = FeatureCell(
+  #cell = FeatureCell<Example[]>(
     {
       key: 'examples',
       initialState: [{ id: 66, name: 'Darth', lastName: 'Vader' }]
@@ -86,16 +86,15 @@ class ArrayAppendExample {
   );
 
   constructor() {
+    // Starts the pipeline — initialState commit is queued in the microtask queue
     this.#cell.initialize();
   }
 
-  async run() {
+  async run(): Promise<void> {
     // setTimeout(0) lets the microtask queue flush so initialState is committed
     await new Promise((resolve) => setTimeout(resolve, 0));
-    console.info(
-      this.#cell.state.value?.map((e) => `${e.name} ${e.lastName}`).join(', ')
-    );
-    // Darth Vader
+    console.info(this.#cell.state.value?.map(label).join(', '));
+    // [Darth Vader]
 
     // Each mergeState() concatenates — it does not replace
     const after = await this.#mergeExamples([
@@ -106,26 +105,8 @@ class ArrayAppendExample {
 }
 ```
 
-## TypeScript vs JavaScript
+## Why Deno for SDuX Vault?
 
-This example is a direct port of the Node.js TypeScript example. The only
-differences are:
-
-| TypeScript                                      | JavaScript                       |
-| ----------------------------------------------- | -------------------------------- |
-| `interface Example { ... }`                     | Removed — no type declarations   |
-| `FeatureCell<Example[]>(...)`                   | `FeatureCell(...)` — no generics |
-| `async run(): Promise<void>`                    | `async run()` — no return type   |
-| `async #waitForNextState(): Promise<Example[]>` | `async #waitForNextState()`      |
-| `emit.snapshot.value as Example[]`              | `emit.snapshot.value` — no cast  |
-| `tsx src/main.ts`                               | `node src/main.js` — no compiler |
-
-All ECMAScript features used here — `class`, private fields (`#`), optional
-chaining (`?.`), nullish coalescing (`??`) — are native JavaScript.
-
-## Why Vanilla JavaScript for SDuX Vault?
-
-SDuX Vault's npm packages ship as compiled JavaScript. TypeScript types are
-entirely optional. This example proves that every pipeline concept — `Vault()`,
-`FeatureCell()`, behaviors, `mergeState()`, `state$` emissions — works with zero
-compilation and zero type annotations.
+SDuX Vault is a plain TypeScript library with no browser dependencies. Add-on
+behaviors from `npm:@sdux-vault/addons` run directly in Deno — the same behavior
+registered in an Angular or Svelte app configures the pipeline the same way here.

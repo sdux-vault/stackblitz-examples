@@ -10,5 +10,9 @@
     }
   },
   "include": ["stackblitz/**/*.ts"],
-  "exclude": ["stackblitz/svelte/**/vite.config.ts", "stackblitz/vue/**"]
+  "exclude": [
+    "stackblitz/deno/**",
+    "stackblitz/svelte/**/vite.config.ts",
+    "stackblitz/vue/**"
+  ]
 }

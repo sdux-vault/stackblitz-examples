@@ -1,6 +1,6 @@
-import { FeatureCell, Vault } from '@sdux-vault/core';
-import { firstValueFrom } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { FeatureCell, Vault } from 'npm:@sdux-vault/core';
+import { firstValueFrom } from 'npm:rxjs';
+import { skip } from 'npm:rxjs/operators';
 
 /**
  * Defines the domain state managed by the counter FeatureCell.
@@ -47,7 +47,7 @@ class ReplaceExample {
   /**
    * The counter FeatureCell with a zeroed initial state. No Vault configuration
    * or framework bootstrap is needed — SDuX Vault runs as a plain TypeScript
-   * module in Node with no extra wiring.
+   * module in Deno with no extra wiring.
    */
   #cell = FeatureCell<CounterState>({
     key: 'counter',
@@ -72,7 +72,7 @@ class ReplaceExample {
    * confirmed committed snapshot before logging.
    */
   async run(): Promise<void> {
-    console.info('=== SDuX Vault Node.js Replace Example ===\n');
+    console.info('=== SDuX Vault Deno Replace Example ===\n');
 
     // initialize() queues the initialState commit in the microtask queue.
     // A zero-timeout tick yields to the event loop so the microtask queue
@@ -169,13 +169,8 @@ class ReplaceExample {
   }
 }
 
-// The example logic uses only runtime-neutral APIs, so this same file runs in
-// Node, Bun, Deno, or the browser. `process` only exists in Node-like runtimes,
-// so guard the call: in Node it forces a clean exit (an open RxJS subscription
-// can otherwise keep the event loop alive and hang the script); everywhere else
-// this is a harmless no-op.
+// Exit explicitly after the example completes because the open RxJS
+// subscription can otherwise keep the Deno event loop alive.
 new ReplaceExample().run().then(() => {
-  if (typeof process !== 'undefined' && process.exit) {
-    process.exit(0);
-  }
+  Deno.exit(0);
 });

@@ -6,10 +6,19 @@ These examples are formatted to run on [StackBlitz](https://stackblitz.com) and 
 
 ## Running Locally
 
+For npm-based examples:
+
 ```bash
 cd stackblitz/<language>/<demo>
 npm install
 npm start
+```
+
+For Deno examples:
+
+```bash
+cd stackblitz/deno/<demo>
+deno run src/main.ts
 ```
 
 ## License
@@ -30,6 +39,7 @@ These languages have working StackBlitz examples available in the `stackblitz/` 
 | 2     | React   | High            | Low                   |
 | 3     | Vue     | High            | Low                   |
 | 4     | Svelte  | Medium          | Medium                |
+| 13    | Deno    | Medium          | Low                   |
 
 ### Road Map Demos
 
@@ -45,7 +55,6 @@ These languages are planned for future examples, listed in recommended implement
 | 10    | Qwik               | Low           | Low             | Medium                |
 | 11    | Electron           | Low           | Medium          | Low                   |
 | 12    | Bun                | Low           | Medium          | Low                   |
-| 13    | Deno               | Low           | Medium          | Low                   |
 | 14    | Tauri              | Low           | Low-Medium      | Low                   |
 | 15    | Service Workers    | Low           | Medium          | Medium                |
 | 16    | Web Workers        | Low           | Medium          | Medium                |
