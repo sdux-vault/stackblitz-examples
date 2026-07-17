@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
   import {
     type Example,
-    exampleState,
-    exampleState$,
+    exampleCell,
     replaceExamples,
     resetExamples,
     toggleError,
@@ -16,29 +14,11 @@
     { id: 9, name: 'Han', lastName: 'Solo' }
   ];
 
-  let snapshot = $state({
-    value: exampleState.value,
-    isLoading: exampleState.isLoading,
-    error: exampleState.error as unknown | null,
-    hasValue: exampleState.hasValue
-  });
+  let snapshot = $derived(exampleCell.state);
 
   let activeStateHint = $state('Initial value is [] (empty array)');
   let displayActiveStateHint = $state(true);
   let isLoading = $state(false);
-
-  const sub = exampleState$.subscribe((emit) => {
-    snapshot = {
-      value: emit.snapshot.value,
-      isLoading: emit.snapshot.isLoading,
-      error: emit.snapshot.error,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-
-  onDestroy(() => {
-    sub.unsubscribe();
-  });
 
   /** Loads sample data into the FeatureCell pipeline. */
   function loadSample(): void {

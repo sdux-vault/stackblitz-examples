@@ -1,6 +1,6 @@
 {
   "name": "@sdux-vault/stackblitz-examples",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "private": true,
   "description": "SDuX Vault StackBlitz example projects for browser, framework, Node.js, Bun, and Deno runtimes",
   "author": {
@@ -80,6 +80,7 @@
     "@sdux-vault/angular": "latest",
     "@sdux-vault/core": "latest",
     "@sdux-vault/react": "latest",
+    "@sdux-vault/svelte": "latest",
     "@types/node": "^26.1.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

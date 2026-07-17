@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
   import {
     type Example,
-    exampleState,
-    exampleState$,
+    exampleCell,
     mergeExamples,
     resetExamples
   } from './example.cell';
@@ -14,26 +12,12 @@
     { id: 9, name: 'Han', lastName: 'Solo' }
   ];
 
-  let snapshot = $state({
-    value: exampleState.value,
-    hasValue: exampleState.hasValue
-  });
+  let snapshot = $derived(exampleCell.state);
 
   let activeStateHint = $state(
     'initialState seeded on initialize() — click Append to grow the list.'
   );
   let displayActiveStateHint = $state(true);
-
-  const sub = exampleState$.subscribe((emit) => {
-    snapshot = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-
-  onDestroy(() => {
-    sub.unsubscribe();
-  });
 
   /**
    * Delegates an array append merge to the FeatureCell cell module.

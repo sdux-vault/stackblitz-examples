@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
   import {
     type Example,
-    exampleState,
-    exampleState$,
+    exampleCell,
     replaceExamples,
     resetExamples
   } from './example.cell';
@@ -15,14 +13,8 @@
     { id: 9, name: 'Han', lastName: 'Solo' }
   ];
 
-  /**
-   * Holds the reactive Svelte view of the current FeatureCell snapshot.
-   * Stream emissions update these fields after hydration and later mutations.
-   */
-  let snapshot = $state({
-    value: exampleState.value,
-    hasValue: exampleState.hasValue
-  });
+  /** Reactively reads the current FeatureCell Snapshot. */
+  let snapshot = $derived(exampleCell.state);
 
   /** Describes whether the visible value came from hydration or a later update. */
   let activeStateHint = $state(
@@ -32,22 +24,10 @@
   /** Controls whether the template shows the source of the hydrated value. */
   let displayActiveStateHint = $state(true);
 
-  /** Keeps the local rune snapshot synchronized with committed cell state. */
-  const sub = exampleState$.subscribe((emit) => {
-    snapshot = {
-      value: emit.snapshot.value,
-      hasValue: emit.snapshot.hasValue
-    };
-  });
-
-  onDestroy(() => {
-    sub.unsubscribe();
-  });
-
   /**
    * Replaces the hydrated value with the sample dataset through the cell module.
-   * The button click updates the pipeline, the stream emits, and Svelte refreshes
-   * the template from the local rune snapshot.
+   * The button click updates the pipeline and Svelte refreshes the template from
+   * the FeatureCell's reactive State getter.
    * @returns void
    */
   function loadSample(): void {
