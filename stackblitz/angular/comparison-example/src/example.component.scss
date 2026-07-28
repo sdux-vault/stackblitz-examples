@@ -1,0 +1,71 @@
+$gap: 0.75rem;
+$padding: 1rem;
+$text-area-height: 175px;
+$border: 1px solid rgba(0, 0, 0, 0.08);
+$button-height: 40px;
+$button-color: #ffffff;
+$button-background: #1976d2;
+$button-border: #004ba0;
+$button-radius: 0.3125rem;
+$button-font-size: 0.875rem;
+$button-spacing: 0.25rem;
+$button-font-weight: 600;
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  padding: $padding;
+  width: 800px;
+
+  .textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: $text-area-height;
+    padding: 0.5rem;
+    border: $border;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: #fafafa;
+    color: #222;
+  }
+
+  .actions {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+  }
+}
+
+.sdux-button {
+  height: $button-height;
+  color: $button-color;
+  background-color: $button-background;
+  border: 1px solid $button-border;
+  border-radius: $button-radius;
+  font-size: $button-font-size;
+  padding: 0.5rem;
+  gap: $button-spacing;
+  font-weight: $button-font-weight;
+  min-width: 125px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="example-container">
+  <div>
+    @if (state.isLoading()) {
+      <div>Loading...</div>
+    } @else if (state.error()) {
+      <div>{{ state.error() }}</div>
+    } @else {
+      <textarea class="textarea" readonly>{{ state.value() | json }}</textarea>
+    }
+  </div>
+
+  <div class="actions">
+    <button type="button" class="sdux-button" (click)="loadSample()">
+      Load Sample State
+    </button>
+
+    <button type="button" class="sdux-button" (click)="loadSampleAsync()">
+      Load Async State
+    </button>
+
+    <button type="button" class="sdux-button" (click)="resetState()">
+      Reset State
+    </button>
+  </div>
+</div>
