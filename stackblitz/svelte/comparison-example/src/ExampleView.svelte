@@ -46,6 +46,17 @@
 </script>
 
 <div class="example-container">
+  A few changes to this Svelte example from the original comparison example:
+  <ol>
+    <li>CSS styling</li>
+    <li>
+      Async fetch changed to "https://jsonplaceholder.typicode.com/users". Note:
+      The live API causes a flash in the UI when the "Load Async State" button
+      is clicked because there is a "Loading..." message displayed while the
+      data is resolving. The API is too responsive to allow for reading the
+      message.
+    </li>
+  </ol>
   <div>
     {#if snapshot.isLoading}
       <div>Loading...</div>
