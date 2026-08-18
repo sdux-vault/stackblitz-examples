@@ -1,6 +1,6 @@
 {
   "name": "@sdux-vault/stackblitz-examples",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "description": "SDuX Vault StackBlitz example projects for browser, framework, Node.js, Bun, and Deno runtimes",
   "author": {
