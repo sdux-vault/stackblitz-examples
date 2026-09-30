@@ -1,0 +1,24 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { Employee } from './employee.model';
+
+export const prepareEmployees = (employees: Employee[]): Employee[] => {
+  return employees
+    .filter((employee) => employee.id % 2 !== 0)
+    .sort((left, right) => left.name.localeCompare(right.name));
+};
+
+export const employeeApi = createApi({
+  reducerPath: 'employeeApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://jsonplaceholder.typicode.com'
+  }),
+  endpoints: (build) => ({
+    getEmployees: build.query<Employee[], void>({
+      query: () => 'users',
+      transformResponse: prepareEmployees
+    })
+  })
+});
+
+export const useGetEmployeesState =
+  employeeApi.endpoints.getEmployees.useQueryState;
