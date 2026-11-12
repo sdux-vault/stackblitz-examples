@@ -1,0 +1,7 @@
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { EmployeeStore } from './employee.service';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideHttpClient(), EmployeeStore]
+};
