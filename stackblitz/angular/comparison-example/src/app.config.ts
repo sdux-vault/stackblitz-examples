@@ -1,4 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { provideFeatureCell, provideVault } from '@sdux-vault/angular';
 import { EmployeeCell } from './employee.service';
 
@@ -9,6 +10,7 @@ import { EmployeeCell } from './employee.service';
  */
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(),
     provideVault({ logLevel: 'off' }),
     provideFeatureCell(EmployeeCell, {
       key: 'employees',

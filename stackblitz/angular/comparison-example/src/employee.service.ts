@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { Injectable, inject, Injector } from '@angular/core';
 import { FeatureCell, injectVault } from '@sdux-vault/angular';
 import { Employee } from './employee.model';
 
@@ -14,6 +15,7 @@ import { Employee } from './employee.model';
 @FeatureCell<Employee[]>('employees')
 @Injectable({ providedIn: 'root' })
 export class EmployeeCell {
+  readonly #injector = inject(Injector);
   /** Private Vault handle used to configure and update the FeatureCell. */
   readonly #vault = injectVault<Employee[]>(EmployeeCell);
 
@@ -56,12 +58,12 @@ export class EmployeeCell {
    * @returns Nothing; the Vault snapshot reports loading, success, or error state.
    */
   replaceAsync(): void {
-    this.#vault.replaceState({
-      value: () =>
-        fetch('https://jsonplaceholder.typicode.com/users').then((response) =>
-          response.json()
-        )
-    });
+    this.#vault.replaceState(
+      httpResource<Employee[]>(
+        () => 'https://jsonplaceholder.typicode.com/users',
+        { injector: this.#injector }
+      )
+    );
   }
 
   /**

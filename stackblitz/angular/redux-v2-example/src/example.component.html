@@ -1,0 +1,36 @@
+<div class="example-container">
+  A few changes to this Angular example from the original comparison example:
+  <ol>
+    <li>CSS styling</li>
+    <li>
+      Async loading uses Angular <code>httpResource</code> within NgRx
+      <code>SignalStore</code> with
+      "https://jsonplaceholder.typicode.com/users". The live API causes a flash
+      in the UI when the "Load Async State" button is clicked because it is too
+      responsive to allow for reading the loading message.
+    </li>
+  </ol>
+  <div>
+    @if (state.isLoading()) {
+      <div>Loading...</div>
+    } @else if (state.error()) {
+      <div>{{ state.error() }}</div>
+    } @else {
+      <textarea class="textarea" readonly>{{ state.value() | json }}</textarea>
+    }
+  </div>
+
+  <div class="actions">
+    <button type="button" class="sdux-button" (click)="loadSample()">
+      Load Sample State
+    </button>
+
+    <button type="button" class="sdux-button" (click)="loadSampleAsync()">
+      Load Async State
+    </button>
+
+    <button type="button" class="sdux-button" (click)="resetState()">
+      Reset State
+    </button>
+  </div>
+</div>
